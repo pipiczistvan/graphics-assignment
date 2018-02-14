@@ -8,24 +8,10 @@ int window;
 
 void reshape(GLsizei width, GLsizei height)
 {
-    int x, y, w, h;
-    double ratio;
-
-    ratio = (double)width / height;
-    if (ratio > VIEWPORT_RATIO) {
-        w = (int)((double)height * VIEWPORT_RATIO);
-        h = height;
-        x = (width - w) / 2;
-        y = 0;
-    }
-    else {
-        w = width;
-        h = (int)((double)width / VIEWPORT_RATIO);
-        x = 0;
-        y = (height - h) / 2;
-    }
-
-    glViewport (x, y, w, h);
+	glViewport (0, 0, width, height);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(50.0, (GLdouble)width / (GLdouble)height, 0.01, 10000.0);
 }
 
 void initialize()

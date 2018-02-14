@@ -9,7 +9,7 @@
 
 void init_camera(struct Camera* camera)
 {
-    camera->position.x = -5;
+    camera->position.x = 0;
     camera->position.y = 0;
     camera->position.z = 0;
 

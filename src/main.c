@@ -1,13 +1,19 @@
 #include <GL/glut.h>
+#include <SOIL/SOIL.h>
 #include <stdio.h>
+
+#include "model.h"
+#include "draw.h"
 #include "window.h"
 #include "input.h"
 #include "camera.h"
 
 #define CAMERA_SPEED 1.0
 
+struct Model model;
 struct Camera camera;
 int time;
+typedef GLubyte Pixel[3]; /*represents red green blue*/
 
 void update_camera_position(struct Camera* camera, double elapsed_time)
 {
@@ -44,6 +50,29 @@ double calc_elapsed_time()
     return elapsed_time;
 }
 
+void initialize_texture(char* filename)
+{
+	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
+
+    int width;
+    int height;
+
+    unsigned char* image = SOIL_load_image(filename, &width, &height, 0, SOIL_LOAD_RGB);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE,
+            (Pixel*)image);
+
+	glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
+	glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_DECAL);
+
+	glEnable(GL_TEXTURE_2D);
+}
+
 void display_handler()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -54,50 +83,11 @@ void display_handler()
     set_view_point(&camera);
 
     glPushMatrix();
-    glBegin(GL_QUADS);                // Begin drawing the color cube with 6 quads
-    // Top face (y = 1.0f)
-    // Define vertices in counter-clockwise (CCW) order with normal pointing out
-    glColor3f(0.0f, 1.0f, 0.0f);     // Green
-    glVertex3f( 1.0f, 1.0f, -1.0f);
-    glVertex3f(-1.0f, 1.0f, -1.0f);
-    glVertex3f(-1.0f, 1.0f,  1.0f);
-    glVertex3f( 1.0f, 1.0f,  1.0f);
-
-    // Bottom face (y = -1.0f)
-    glColor3f(1.0f, 0.5f, 0.0f);     // Orange
-    glVertex3f( 1.0f, -1.0f,  1.0f);
-    glVertex3f(-1.0f, -1.0f,  1.0f);
-    glVertex3f(-1.0f, -1.0f, -1.0f);
-    glVertex3f( 1.0f, -1.0f, -1.0f);
-
-    // Front face  (z = 1.0f)
-    glColor3f(1.0f, 0.0f, 0.0f);     // Red
-    glVertex3f( 1.0f,  1.0f, 1.0f);
-    glVertex3f(-1.0f,  1.0f, 1.0f);
-    glVertex3f(-1.0f, -1.0f, 1.0f);
-    glVertex3f( 1.0f, -1.0f, 1.0f);
-
-    // Back face (z = -1.0f)
-    glColor3f(1.0f, 1.0f, 0.0f);     // Yellow
-    glVertex3f( 1.0f, -1.0f, -1.0f);
-    glVertex3f(-1.0f, -1.0f, -1.0f);
-    glVertex3f(-1.0f,  1.0f, -1.0f);
-    glVertex3f( 1.0f,  1.0f, -1.0f);
-
-    // Left face (x = -1.0f)
-    glColor3f(0.0f, 0.0f, 1.0f);     // Blue
-    glVertex3f(-1.0f,  1.0f,  1.0f);
-    glVertex3f(-1.0f,  1.0f, -1.0f);
-    glVertex3f(-1.0f, -1.0f, -1.0f);
-    glVertex3f(-1.0f, -1.0f,  1.0f);
-
-    // Right face (x = 1.0f)
-    glColor3f(1.0f, 0.0f, 1.0f);     // Magenta
-    glVertex3f(1.0f,  1.0f, -1.0f);
-    glVertex3f(1.0f,  1.0f,  1.0f);
-    glVertex3f(1.0f, -1.0f,  1.0f);
-    glVertex3f(1.0f, -1.0f, -1.0f);
-    glEnd();  // End of drawing color-cube
+    glTranslatef(0.0, 0.0, -0.05);
+    glRotatef(90, 1.0, 0.0, 0.0);
+    glRotatef(-90, 0.0, 1.0, 0.0);
+    glScalef(0.001, 0.001, 0.001);
+    draw_model(&model);
     glPopMatrix();
 
     glutSwapBuffers();
@@ -121,21 +111,30 @@ void init_gl()
     glEnable(GL_NORMALIZE);
     glEnable(GL_AUTO_NORMAL);
 
-    glClearColor(0.1, 0.1, 0.1, 1.0);
+    glClearColor(1.0, 1.0, 1.0, 0.0);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+
+	gluLookAt(
+        0.0, 0.0, -200, // eye
+        0.0, 0.0, 0.0, // look at
+        0.0, 1.0, 0.0  // up
+    );
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_COLOR_MATERIAL);
 
     glClearDepth(1.0);
 
-    glEnable(GL_TEXTURE_2D);
+    initialize_texture("res/lego.png");
 }
 
 int main(int argc, char* argv[])
 {
+    load_model("res/lego.obj", &model);
+    print_bounding_box(&model);
+
     glutInit(&argc, argv);
     
     init_window(640, 480, "Graphics assignment");
