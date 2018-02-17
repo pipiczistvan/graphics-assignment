@@ -2,11 +2,12 @@
 #include <SOIL/SOIL.h>
 #include <stdio.h>
 
-#include "model.h"
-#include "draw.h"
-#include "window.h"
-#include "input.h"
-#include "camera.h"
+#include "core/window.h"
+#include "core/input.h"
+
+#include "engine/model.h"
+#include "engine/draw.h"
+#include "engine/camera.h"
 
 #define CAMERA_SPEED 1.0
 

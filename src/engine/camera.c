@@ -1,6 +1,6 @@
 #include "camera.h"
 
-#include "utils.h"
+#include "../core/utils.h"
 
 #include <GL/glut.h>
 #include <math.h>
