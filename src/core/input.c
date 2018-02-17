@@ -4,6 +4,8 @@
 
 passive_motion_func_type passive_motion_func;
 
+int mouse_released = FALSE;
+
 void key_handler(unsigned char key, int x, int y)
 {
 	switch (key) 
@@ -54,6 +56,18 @@ void key_up_handler(unsigned char key, int x, int y)
 
 void special_key_handler(int key, int x, int y)
 {
+    if (glutGetModifiers() & GLUT_ACTIVE_CTRL)
+    {
+        if (mouse_released == TRUE)
+        {
+            mouse_released = FALSE;
+        } 
+        else
+        {
+           mouse_released = TRUE;
+        }
+    }
+
 	switch (key) 
     {
         case GLUT_KEY_F1:
@@ -78,15 +92,18 @@ void special_key_up_handler(int key, int x, int y)
 
 void passive_motion_handler(int x, int y)
 {
-    int half_window_width = glutGet(GLUT_WINDOW_WIDTH) / 2;
-    int half_window_height = glutGet(GLUT_WINDOW_HEIGHT) / 2;
+    if (mouse_released == FALSE)
+    {
+        int half_window_width = glutGet(GLUT_WINDOW_WIDTH) / 2;
+        int half_window_height = glutGet(GLUT_WINDOW_HEIGHT) / 2;
 
-    int d_x = x - half_window_width;
-    int d_y = y - half_window_height;
+        int d_x = x - half_window_width;
+        int d_y = y - half_window_height;
 
-    passive_motion_func(d_x, d_y);
+        passive_motion_func(d_x, d_y);
 
-    glutWarpPointer(half_window_width, half_window_height);
+        glutWarpPointer(half_window_width, half_window_height);
+    }
 }
 
 void idle_handler()

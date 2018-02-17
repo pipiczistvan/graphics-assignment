@@ -1,10 +1,12 @@
-#include "window.h"
+#include "display.h"
 #include <GL/glut.h>
 
 #define VIEWPORT_RATIO (4.0 / 3.0)
 #define VIEWPORT_ASPECT 50.0
 
 int window;
+
+// PRIVATE
 
 void reshape(GLsizei width, GLsizei height)
 {
@@ -21,40 +23,46 @@ void initialize()
     glEnable(GL_NORMALIZE);
     glEnable(GL_AUTO_NORMAL);
 
-    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glClearColor(1.0, 1.0, 1.0, 0.0);
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 
-    gluLookAt(
-        3.0, 3.0, 4.0, // eye
+	gluLookAt(
+        0.0, 0.0, -200, // eye
         0.0, 0.0, 0.0, // look at
-        0.0, 0.0, 1.0  // up
+        0.0, 1.0, 0.0  // up
     );
 
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_COLOR_MATERIAL);
 
     glClearDepth(1.0);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(VIEWPORT_ASPECT, VIEWPORT_RATIO, 0.01, 10.0);
 }
 
-void init_window(int width, int height, char* title)
+int create_window(int width, int height, char* title)
 {
     glutInitWindowSize(width, height);     
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 
-    window = glutCreateWindow(title);
+    int window = glutCreateWindow(title);
     glutSetWindow(window);
+
+    return window;
+}
+
+// PUBLIC
+
+void init_display(int width, int height, char* title)
+{
+    window = create_window(width, height, title);
 
     initialize();
 
     glutReshapeFunc(reshape);
 }
 
-void close_window()
+void close_display()
 {
     glutDestroyWindow(window);
 }
