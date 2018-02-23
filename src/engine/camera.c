@@ -7,7 +7,7 @@
 #include <math.h>
 
 #define LOOK_SPEED 0.1
-#define MOVE_SPEED 0.1
+#define MOVE_SPEED 10.0
 
 struct Camera camera;
 

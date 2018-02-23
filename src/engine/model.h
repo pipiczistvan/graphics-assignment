@@ -10,8 +10,8 @@
 
 struct TokenArray
 {
-	char** tokens;
-	int n_tokens;
+    char** tokens;
+    int n_tokens;
 };
 
 struct Vertex
@@ -197,6 +197,40 @@ int is_valid_triangle(const struct Triangle* triangle, const struct Model* model
  * Check that the indices in the quad are valid.
  */
 int is_valid_quad(const struct Quad* quad, const struct Model* model);
+
+/**
+ * Calculate the normal vectors.
+ */
+void calc_normals(struct Model* model);
+
+/**
+ * Apply the triangle normals to the vertex normals.
+ */
+void apply_triangle_normals(struct Model* model);
+
+/**
+ * Apply the quad normals to the vertex normals.
+ */
+void apply_quad_normals(struct Model* model);
+
+/**
+ * Normalize the vertex normal vectors.
+ */
+void normalize_vertex_normals(struct Model* model);
+
+/**
+ * Calculate the normal vector of a triangle.
+ */
+void calc_triangle_normal(
+    const struct Vertex* a,
+    const struct Vertex* b,
+    const struct Vertex* c,
+    struct Vertex* n);
+
+/**
+ * Calculate the length of the vector.
+ */
+double calc_length(const struct Vertex* v);
 
 /**
  * Print the bounding box of the model.

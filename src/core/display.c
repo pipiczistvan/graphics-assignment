@@ -18,25 +18,12 @@ void reshape(GLsizei width, GLsizei height)
 
 void initialize()
 {
-    glShadeModel(GL_SMOOTH);
-
     glEnable(GL_NORMALIZE);
     glEnable(GL_AUTO_NORMAL);
-
-    glClearColor(1.0, 1.0, 1.0, 0.0);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-	gluLookAt(
-        0.0, 0.0, -200, // eye
-        0.0, 0.0, 0.0, // look at
-        0.0, 1.0, 0.0  // up
-    );
-
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_COLOR_MATERIAL);
 
+    glShadeModel(GL_SMOOTH);
+    glClearColor(1.0, 1.0, 1.0, 0.0);
     glClearDepth(1.0);
 }
 

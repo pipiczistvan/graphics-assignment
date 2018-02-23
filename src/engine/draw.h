@@ -18,4 +18,11 @@ void draw_triangles(const struct Model* model);
  */
 void draw_quads(const struct Model* model);
 
+/**
+ * Draw the normal vectors of the model.
+ *
+ * NOTE: It assumes that all vertex has normal vector with the same index.
+ */
+void draw_normals(const struct Model* model, double length);
+
 #endif // DRAW_H
