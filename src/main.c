@@ -11,6 +11,7 @@
 #include "engine/texture.h"
 
 struct Model model;
+struct Texture texture;
 int time;
 
 double calc_elapsed_time()
@@ -66,6 +67,7 @@ void display_handler()
         glRotatef(-90, 0.0, 1.0, 0.0);
         //glScalef(0.001, 0.001, 0.001);
 
+        glBindTexture(GL_TEXTURE_2D, texture.id);
         draw_model(&model);
         //draw_normals(&model, 1.0);
     }
@@ -97,7 +99,7 @@ int main(int argc, char* argv[])
     scale_model(&model, 0.001, 0.001, 0.001);
     print_model_info(&model);
     print_bounding_box(&model);
-    load_texture("res/tiger.png");
+    load_texture("res/tiger.png", &texture);
     set_lightings();
     
     glutDisplayFunc(display_handler);
