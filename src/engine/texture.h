@@ -3,7 +3,8 @@
 
 #include <GL/glut.h>
 
-struct Texture {
+struct Texture
+{
     GLuint id;
 };
 

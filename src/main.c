@@ -9,9 +9,11 @@
 #include "engine/draw.h"
 #include "engine/camera.h"
 #include "engine/texture.h"
+#include "engine/light.h"
 
 struct Model model;
 struct Texture texture;
+struct Light light;
 int time;
 
 double calc_elapsed_time()
@@ -28,18 +30,12 @@ double calc_elapsed_time()
 
 void set_lightings()
 {
-    GLfloat light_position[] = { -3.0, 0.0, 3.0, 0.0 };
-    GLfloat light_ambient[] = { 0.1, 0.1, 0.1, 0 };
-    GLfloat light_diffuse[] = { 0.7, 0.7, 0.7, 0 };
-    GLfloat light_specular[] = { 1, 1, 1, 0 };
+    set_light_attribute(light.light_position, -3.0, 0.0, 3.0, 0.0);
+    set_light_attribute(light.light_ambient, 0.1, 0.1, 0.1, 0.0);
+    set_light_attribute(light.light_diffuse, 0.7, 0.7, 0.7, 0.0);
+    set_light_attribute(light.light_specular, 1.0, 1.0, 1.0, 0.0);
 
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
+    load_light(&light, GL_LIGHT0);
 }
 
 void display_handler()
