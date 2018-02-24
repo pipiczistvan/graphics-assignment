@@ -4,7 +4,7 @@
 
 typedef GLubyte Pixel[3]; /*represents red green blue*/
 
-void load_texture(char *file, struct Texture *texture)
+void load_texture(const char *file, struct Texture *texture)
 {
     glGenTextures(1, &texture->id);
     glBindTexture(GL_TEXTURE_2D, texture->id);

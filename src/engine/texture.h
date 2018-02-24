@@ -8,6 +8,6 @@ struct Texture
     GLuint id;
 };
 
-void load_texture(char *file, struct Texture *texture);
+void load_texture(const char *file, struct Texture *texture);
 
 #endif // TEXTURE_H

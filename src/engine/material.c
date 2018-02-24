@@ -1,5 +1,20 @@
 #include "material.h"
 
+struct Material GOLD =
+{
+    { 0.24725, 0.1995, 0.0745, 1.0 },
+    { 0.75164, 0.60648, 0.22648, 1.0 },
+    { 0.628281, 0.555802, 0.366065, 1.0 },
+    { 51.2 }
+};
+struct Material JADE =
+{
+    { 0.135, 0.2225, 0.1575, 0.95 },
+    { 0.54,	0.89, 0.63, 0.95 },
+    { 0.316228,	0.316228, 0.316228,	0.95 },
+    { 12.8 }
+};
+
 void load_material(struct Material *material)
 {
     glMaterialfv(GL_FRONT, GL_AMBIENT, material->ambient);

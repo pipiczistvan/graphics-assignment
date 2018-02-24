@@ -73,8 +73,8 @@ void set_view_point()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	glRotatef(-(camera.pose.x + 90), 1.0, 0, 0);
-	glRotatef(-(camera.pose.z - 90), 0, 0, 1.0);
+	glRotatef(-(camera.pose.x + 90), 1.0, 0.0, 0.0);
+	glRotatef(-(camera.pose.z - 90), 0.0, 0.0, 1.0);
 	glTranslatef(-camera.position.x, -camera.position.y, -camera.position.z);
 }
 

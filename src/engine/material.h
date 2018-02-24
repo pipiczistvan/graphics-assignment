@@ -11,6 +11,9 @@ struct Material
     GLfloat shininess[1];
 };
 
+struct Material GOLD;
+struct Material JADE;
+
 void load_material(struct Material *material);
 
 void set_material_ambient(struct Material *material, GLfloat x, GLfloat y, GLfloat z, GLfloat w);

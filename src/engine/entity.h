@@ -7,14 +7,24 @@
 #include "texture.h"
 #include "material.h"
 
-/*struct Entity
+struct Entity
 {
-    Vertex position;
-    Vertex rotation;
-    Vertex scale;
-    Model model;
-    Texture texture;
-    Material material;
-};*/
+    GLfloat position[3];
+    GLfloat rotation[3];
+    GLfloat scale[3];
+    struct Model model;
+    struct Texture texture;
+    struct Material material;
+};
+
+void set_entity(struct Entity *entity, const char* model, const char* texture, struct Material *material);
+
+void set_entity_position(struct Entity *entity, GLfloat x, GLfloat y, GLfloat z);
+
+void set_entity_rotation(struct Entity *entity, GLfloat x, GLfloat y, GLfloat z);
+
+void set_entity_scale(struct Entity *entity, GLfloat x, GLfloat y, GLfloat z);
+
+void draw_entity(struct Entity *Entity);
 
 #endif // ENTITY_H
