@@ -8,7 +8,7 @@
 
 #include "engine/camera.h"
 #include "engine/light.h"
-#include "engine/entity.h"
+#include "engine/entity/entity.h"
 
 struct Entity tigerEntity;
 struct Light light;
@@ -63,8 +63,10 @@ int main(int argc, char* argv[])
     init_camera();
 
     set_lightings();
-    set_entity(&tigerEntity, "res/tiger.obj", "res/tiger.png", &JADE);
+
+    set_entity(&tigerEntity, "res/tiger.obj", "res/tiger.png", &GOLD);
     set_entity_scale(&tigerEntity, 0.001, 0.001, 0.001);
+    set_entity_position(&tigerEntity, 10.0, 0.0, 0.0);
 
     glutDisplayFunc(display_handler);
 
