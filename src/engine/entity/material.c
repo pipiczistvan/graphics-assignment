@@ -14,6 +14,13 @@ struct Material JADE =
     { 0.316228,	0.316228, 0.316228,	0.95 },
     { 12.8 }
 };
+struct Material DEFAULT =
+{
+    { 1.0, 1.0, 1.0, 1.0 },
+    { 0.0, 0.0, 0.0, 1.0 },
+    { 0.0, 0.0, 0.0, 1.0 },
+    { 1.0 }
+};
 
 void load_material(struct Material *material)
 {

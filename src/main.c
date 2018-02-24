@@ -11,6 +11,7 @@
 #include "engine/entity/entity.h"
 
 struct Entity tigerEntity;
+struct Entity skyboxEntity;
 struct Light light;
 
 void set_lightings()
@@ -31,12 +32,19 @@ void display_handler()
     double delta = calc_elapsed_time();
     update_camera(delta);
     //tigerEntity.rotation[0] += 10.0 * delta;
-    tigerEntity.rotation[1] += 10.0 * delta;
+    //tigerEntity.rotation[1] += 10.0 * delta;
     //tigerEntity.rotation[2] += 10.0 * delta;
+
+    skyboxEntity.rotation[1] += 1.0 * delta;
 
     glPushMatrix();
     {
         draw_entity(&tigerEntity);
+    }
+    glPopMatrix();
+    glPushMatrix();
+    {
+        draw_entity(&skyboxEntity);
     }
     glPopMatrix();
 
@@ -67,6 +75,9 @@ int main(int argc, char* argv[])
     set_entity(&tigerEntity, "res/tiger.obj", "res/tiger.png", &GOLD);
     set_entity_scale(&tigerEntity, 0.001, 0.001, 0.001);
     set_entity_position(&tigerEntity, 10.0, 0.0, 0.0);
+
+    set_entity(&skyboxEntity, "res/skybox.obj", "res/skybox.png", &DEFAULT);
+    set_entity_scale(&skyboxEntity, 500.0, 500.0, 500.0);
 
     glutDisplayFunc(display_handler);
 

@@ -13,6 +13,7 @@ struct Material
 
 struct Material GOLD;
 struct Material JADE;
+struct Material DEFAULT;
 
 void load_material(struct Material *material);
 
