@@ -10,9 +10,11 @@
 #include "engine/camera.h"
 #include "engine/texture.h"
 #include "engine/light.h"
+#include "engine/material.h"
 
 struct Model model;
 struct Texture texture;
+struct Material material;
 struct Light light;
 int time;
 
@@ -30,12 +32,20 @@ double calc_elapsed_time()
 
 void set_lightings()
 {
-    set_light_attribute(light.light_position, -3.0, 0.0, 3.0, 0.0);
-    set_light_attribute(light.light_ambient, 0.1, 0.1, 0.1, 0.0);
-    set_light_attribute(light.light_diffuse, 0.7, 0.7, 0.7, 0.0);
-    set_light_attribute(light.light_specular, 1.0, 1.0, 1.0, 0.0);
+    set_light_position(&light, -3.0, 0.0, 3.0, 0.0);
+    set_light_ambient(&light, 0.1, 0.1, 0.1, 0.0);
+    set_light_diffuse(&light, 0.7, 0.7, 0.7, 0.0);
+    set_light_specular(&light, 1.0, 1.0, 1.0, 0.0);
 
     load_light(&light, GL_LIGHT0);
+}
+
+void set_materials()
+{
+    set_material_ambient(&material, 0.24725, 0.1995, 0.0745, 1.0);
+    set_material_diffuse(&material, 0.75164, 0.60648, 0.22648, 1.0);
+    set_material_specular(&material, 0.628281, 0.555802, 0.366065, 1.0);
+    set_material_shininess(&material, 51.2);
 }
 
 void display_handler()
@@ -48,15 +58,7 @@ void display_handler()
 
     glPushMatrix();
     {
-        GLfloat material_ambient[] = { 0.24725, 0.1995, 0.0745, 1 };
-        GLfloat material_diffuse[] = { 0.75164, 0.60648, 0.22648, 1 };
-        GLfloat material_specular[] = { 0.628281, 0.555802, 0.366065, 1 };
-        GLfloat material_shininess[] = { 51.2 };
-
-        glMaterialfv(GL_FRONT, GL_AMBIENT, material_ambient);
-        glMaterialfv(GL_FRONT, GL_DIFFUSE, material_diffuse);
-        glMaterialfv(GL_FRONT, GL_SPECULAR, material_specular);
-        glMaterialfv(GL_FRONT, GL_SHININESS, material_shininess);
+        load_material(&material);
 
         glTranslatef(5.0, 0.0, -0.5);
         glRotatef(90, 1.0, 0.0, 0.0);
@@ -97,6 +99,7 @@ int main(int argc, char* argv[])
     print_bounding_box(&model);
     load_texture("res/tiger.png", &texture);
     set_lightings();
+    set_materials();
     
     glutDisplayFunc(display_handler);
 
