@@ -8,11 +8,14 @@
 
 #include "engine/camera.h"
 #include "engine/light.h"
+#include "engine/draw.h"
 #include "engine/entity/entity.h"
+#include "engine/entity/height_map.h"
 
 struct Entity tigerEntity;
 struct Entity skyboxEntity;
 struct Light light;
+struct HeightMap terrain;
 
 void set_lightings()
 {
@@ -37,16 +40,9 @@ void display_handler()
 
     skyboxEntity.rotation[1] += 1.0 * delta;
 
-    glPushMatrix();
-    {
-        draw_entity(&tigerEntity);
-    }
-    glPopMatrix();
-    glPushMatrix();
-    {
-        draw_entity(&skyboxEntity);
-    }
-    glPopMatrix();
+    draw_height_map(&terrain);
+    draw_entity(&tigerEntity);
+    draw_entity(&skyboxEntity);
 
     glutSwapBuffers();
 
@@ -71,6 +67,10 @@ int main(int argc, char* argv[])
     init_camera();
 
     set_lightings();
+
+    set_height_map(&terrain, "res/terrain.png", "res/grass.png", 96.0 / 256.0);
+    set_height_map_scale(&terrain, 256.0, 96.0, 256.0);
+    set_height_map_position(&terrain, -128.0, 0.0, -128.0);
 
     set_entity(&tigerEntity, "res/tiger.obj", "res/tiger.png", &GOLD);
     set_entity_scale(&tigerEntity, 0.001, 0.001, 0.001);

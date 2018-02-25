@@ -25,6 +25,4 @@ void set_entity_rotation(struct Entity *entity, GLfloat x, GLfloat y, GLfloat z)
 
 void set_entity_scale(struct Entity *entity, GLfloat x, GLfloat y, GLfloat z);
 
-void draw_entity(struct Entity *Entity);
-
 #endif // ENTITY_H

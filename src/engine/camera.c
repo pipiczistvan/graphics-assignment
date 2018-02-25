@@ -15,34 +15,34 @@ struct Camera camera;
 
 void move_camera_forward(double distance)
 {
-	double angle = degree_to_radian(camera.pose.z);
+	double angle = degree_to_radian(camera.pose.y);
 
-	camera.position.x += cos(angle) * distance;
-	camera.position.y += sin(angle) * distance;
+	camera.position.z -= cos(angle) * distance;
+	camera.position.x -= sin(angle) * distance;
 }
 
 void move_camera_backward(double distance)
 {
-	double angle = degree_to_radian(camera.pose.z);
+	double angle = degree_to_radian(camera.pose.y);
 
-	camera.position.x -= cos(angle) * distance;
-	camera.position.y -= sin(angle) * distance;
+	camera.position.z += cos(angle) * distance;
+	camera.position.x += sin(angle) * distance;
 }
 
 void step_camera_left(double distance)
 {
-	double angle = degree_to_radian(camera.pose.z + 90.0);
+	double angle = degree_to_radian(camera.pose.y + 90.0);
 
-	camera.position.x += cos(angle) * distance;
-	camera.position.y += sin(angle) * distance;
+	camera.position.z -= cos(angle) * distance;
+	camera.position.x -= sin(angle) * distance;
 }
 
 void step_camera_right(double distance)
 {
-	double angle = degree_to_radian(camera.pose.z - 90.0);
+	double angle = degree_to_radian(camera.pose.y - 90.0);
 
-	camera.position.x += cos(angle) * distance;
-	camera.position.y += sin(angle) * distance;
+	camera.position.z -= cos(angle) * distance;
+	camera.position.x -= sin(angle) * distance;
 }
 
 void set_position(double delta)
@@ -73,8 +73,8 @@ void set_view_point()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	glRotatef(-(camera.pose.x + 90), 1.0, 0.0, 0.0);
-	glRotatef(-(camera.pose.z - 90), 0.0, 0.0, 1.0);
+	glRotatef(-(camera.pose.x), 1.0, 0.0, 0.0);
+	glRotatef(-(camera.pose.y), 0.0, 1.0, 0.0);
 	glTranslatef(-camera.position.x, -camera.position.y, -camera.position.z);
 }
 
@@ -82,13 +82,13 @@ void set_view_point()
 
 void init_camera()
 {
-    camera.position.x = 0;
-    camera.position.y = 0;
-    camera.position.z = 0;
+    camera.position.x = 0.0;
+    camera.position.y = 1.0;
+    camera.position.z = 0.0;
 
-    camera.pose.x = 0;
-    camera.pose.y = 0;
-    camera.pose.z = 0;
+    camera.pose.x = 0.0;
+    camera.pose.y = 0.0;
+    camera.pose.z = 0.0;
 }
 
 void update_camera(double delta)
@@ -99,15 +99,15 @@ void update_camera(double delta)
 
 void rotate_camera(double horizontal, double vertical)
 {
-	camera.pose.z -= horizontal * LOOK_SPEED;
+	camera.pose.y -= horizontal * LOOK_SPEED;
 	camera.pose.x -= vertical * LOOK_SPEED;
 
-	if (camera.pose.z < 0) {
-		camera.pose.z += 360.0;
+	if (camera.pose.y < 0) {
+		camera.pose.y += 360.0;
 	}
 
-	if (camera.pose.z > 360.0) {
-		camera.pose.z -= 360.0;
+	if (camera.pose.y > 360.0) {
+		camera.pose.y -= 360.0;
 	}
 
 	if (camera.pose.x < 0) {
