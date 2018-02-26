@@ -2,6 +2,7 @@
 #define CAMERA_H
 
 #include "entity/model.h"
+#include "entity/height_map.h"
 
 struct Camera
 {
@@ -13,6 +14,6 @@ void init_camera();
 
 void rotate_camera(double horizontal, double vertical);
 
-void update_camera(double delta);
+void update_camera(struct HeightMap* height_map, double delta);
 
 #endif // CAMERA_H

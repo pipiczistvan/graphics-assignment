@@ -57,4 +57,6 @@ void set_height_map_rotation(struct HeightMap* height_map, GLfloat x, GLfloat y,
 
 void set_height_map_scale(struct HeightMap* height_map, GLfloat x, GLfloat y, GLfloat z);
 
+double get_terrain_height(struct HeightMap* height_map, GLfloat x, GLfloat z);
+
 #endif // HEIGHT_MAP_H

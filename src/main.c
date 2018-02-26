@@ -33,12 +33,16 @@ void display_handler()
     glMatrixMode(GL_MODELVIEW);
 
     double delta = calc_elapsed_time();
-    update_camera(delta);
+    update_camera(&terrain, delta);
     //tigerEntity.rotation[0] += 10.0 * delta;
     //tigerEntity.rotation[1] += 10.0 * delta;
     //tigerEntity.rotation[2] += 10.0 * delta;
 
     skyboxEntity.rotation[1] += 1.0 * delta;
+
+    tigerEntity.position[0] -= 1.0 * delta;
+    tigerEntity.position[2] += 1.0 * delta;
+    tigerEntity.position[1] = get_terrain_height(&terrain, tigerEntity.position[0], tigerEntity.position[2]) + 1.0;
 
     draw_height_map(&terrain);
     draw_entity(&tigerEntity);
@@ -68,8 +72,8 @@ int main(int argc, char* argv[])
 
     set_lightings();
 
-    set_height_map(&terrain, "res/terrain.png", "res/grass.png", 96.0 / 256.0);
-    set_height_map_scale(&terrain, 256.0, 96.0, 256.0);
+    set_height_map(&terrain, "res/heightmap.png", "res/grass.png", 96.0 / 256.0);
+    set_height_map_scale(&terrain, 256.0, 16.0, 256.0);
     set_height_map_position(&terrain, -128.0, 0.0, -128.0);
 
     set_entity(&tigerEntity, "res/tiger.obj", "res/tiger.png", &GOLD);
