@@ -94,7 +94,7 @@ void init_camera()
 void update_camera(struct HeightMap* height_map, double delta)
 {
 	set_position(delta);
-	camera.position.y = get_terrain_height(height_map, camera.position.x, camera.position.z) + 1.0;
+	camera.position.y = get_terrain_height(height_map, camera.position.x, camera.position.z) + 2.0;
 	set_view_point();
 }
 

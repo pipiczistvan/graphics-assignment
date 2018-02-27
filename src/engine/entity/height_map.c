@@ -31,7 +31,6 @@ void set_height_map(struct HeightMap* height_map, const char* filename, const ch
     calc_height_map_heights(height_map, image);
     calc_height_map_normals(height_map, unit);
 
-
     set_height_map_position(height_map, 0.0, 0.0, 0.0);
     set_height_map_rotation(height_map, 0.0, 0.0, 0.0);
     set_height_map_scale(height_map, 1.0, 1.0, 1.0);
@@ -81,6 +80,7 @@ void calc_height_map_normals(struct HeightMap* height_map, double unit)
                 height_map->normals[index].z += (h1 - h2) / (2.0 * unit);
                 height_map->normals[index].y += 1.0;
             }
+
             if (j >= 1 && j <= height_map->n_rows - 1) {
                 h1 = get_height_map_value(height_map, i, j - 1); 
                 h2 = get_height_map_value(height_map, i, j + 1); 

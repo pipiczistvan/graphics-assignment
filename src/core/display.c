@@ -21,6 +21,8 @@ void initialize()
     glEnable(GL_NORMALIZE);
     glEnable(GL_AUTO_NORMAL);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glShadeModel(GL_SMOOTH);
     glClearColor(1.0, 1.0, 1.0, 0.0);

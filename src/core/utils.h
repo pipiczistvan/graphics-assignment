@@ -13,6 +13,8 @@ struct Vector3d
     double z;
 };
 
+double calc_elapsed_time();
+
 /**
  * Calculate the length of the vector.
  */
