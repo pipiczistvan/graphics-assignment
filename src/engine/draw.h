@@ -39,4 +39,6 @@ void draw_height_map_normals(const struct HeightMap* height_map, double length);
 
 void draw_entity(struct Entity *Entity);
 
+void draw_fog();
+
 #endif // DRAW_H

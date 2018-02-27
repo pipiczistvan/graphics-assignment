@@ -4,6 +4,8 @@
 
 #include <stdio.h>
 
+GLfloat fogColor[] = {0.3, 0.3, 0.3, 1.0};
+
 void draw_triangles(const struct Model* model)
 {
     int i, k;
@@ -187,4 +189,12 @@ void draw_entity(struct Entity *entity)
         //draw_normals(&model, 1.0);
     }
     glPopMatrix();
+}
+
+void draw_fog()
+{
+    glFogfv(GL_FOG_COLOR, fogColor);
+    glFogi(GL_FOG_MODE, GL_LINEAR);
+    glFogf(GL_FOG_START, 10.0f);
+    glFogf(GL_FOG_END, 20.0f);
 }

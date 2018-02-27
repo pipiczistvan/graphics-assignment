@@ -100,7 +100,6 @@ void free_tokens(struct TokenArray* token_array)
 int load_model(const char* filename, struct Model* model)
 {
     FILE* obj_file = fopen(filename, "r");
-    printf("Load model '%s' ...\n", filename);
     if (obj_file == NULL) {
         printf("ERROR: Unable to open '%s' file!\n", filename);
         return FALSE;

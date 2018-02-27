@@ -36,6 +36,8 @@ void display_handler()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
 
+    draw_fog();
+
     double delta = calc_elapsed_time();
     update_camera(&terrain, delta);
     //tigerEntity.rotation[0] += 10.0 * delta;
@@ -50,7 +52,9 @@ void display_handler()
 
     draw_height_map(&terrain);
     draw_entity(&tigerEntity);
+    glDisable(GL_FOG);
     draw_entity(&skyboxEntity);
+    glEnable(GL_FOG);
     
     int i;
     for (i = 0; i < GRASS_COUNT; i++)
