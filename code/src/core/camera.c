@@ -1,7 +1,6 @@
-#include "camera.h"
+#include "core/camera.h"
 
-#include "../core/input.h"
-#include "../core/utils.h"
+#include "core/input.h"
 
 #include <GL/glut.h>
 #include <math.h>

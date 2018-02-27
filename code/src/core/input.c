@@ -1,5 +1,7 @@
-#include "input.h"
-#include "ASCII.h"
+#include "core/input.h"
+
+#include "core/ASCII.h"
+
 #include <GL/glut.h>
 
 passive_motion_func_type passive_motion_func;

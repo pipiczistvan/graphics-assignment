@@ -1,11 +1,4 @@
-#include "entity.h"
-
-void set_entity_attribute(GLfloat attribute[], GLfloat x, GLfloat y, GLfloat z)
-{
-    attribute[0] = x;
-    attribute[1] = y;
-    attribute[2] = z;
-}
+#include "core/entity.h"
 
 void set_entity(struct Entity *entity, const char* model, const char* texture, struct Material *material)
 {
@@ -24,15 +17,21 @@ void set_entity(struct Entity *entity, const char* model, const char* texture, s
 
 void set_entity_position(struct Entity *entity, GLfloat x, GLfloat y, GLfloat z)
 {
-    set_entity_attribute(entity->position, x, y, z);
+    entity->position.x = x;
+    entity->position.y = y;
+    entity->position.z = z;
 }
 
 void set_entity_rotation(struct Entity *entity, GLfloat x, GLfloat y, GLfloat z)
 {
-    set_entity_attribute(entity->rotation, x, y, z);
+    entity->rotation.x = x;
+    entity->rotation.y = y;
+    entity->rotation.z = z;
 }
 
 void set_entity_scale(struct Entity *entity, GLfloat x, GLfloat y, GLfloat z)
 {
-    set_entity_attribute(entity->scale, x, y, z);
+    entity->scale.x = x;
+    entity->scale.y = y;
+    entity->scale.z = z;
 }

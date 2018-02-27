@@ -3,15 +3,16 @@
 
 #include <GL/glut.h>
 
-#include "model.h"
-#include "texture.h"
-#include "material.h"
+#include "core/model.h"
+#include "core/texture.h"
+#include "core/material.h"
+#include "core/utils.h"
 
 struct Entity
 {
-    GLfloat position[3];
-    GLfloat rotation[3];
-    GLfloat scale[3];
+    struct Vector3d position;
+    struct Vector3d rotation;
+    struct Vector3d scale;
     struct Model model;
     struct Texture texture;
     struct Material material;

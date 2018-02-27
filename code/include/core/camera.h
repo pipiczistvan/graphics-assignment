@@ -1,13 +1,13 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "entity/model.h"
-#include "entity/height_map.h"
+#include "core/utils.h"
+#include "core/height_map.h"
 
 struct Camera
 {
-	struct Vertex position;
-	struct Vertex pose;
+	struct Vector3d position;
+	struct Vector3d pose;
 };
 
 void init_camera();

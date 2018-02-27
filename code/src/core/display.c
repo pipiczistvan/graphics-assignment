@@ -1,4 +1,5 @@
-#include "display.h"
+#include "core/display.h"
+
 #include <GL/glut.h>
 
 #define VIEWPORT_RATIO (4.0 / 3.0)

@@ -1,7 +1,6 @@
-#include "draw.h"
+#include "core/draw.h"
 
 #include <GL/glut.h>
-
 #include <stdio.h>
 
 GLfloat fogColor[] = {0.3, 0.3, 0.3, 1.0};
@@ -109,11 +108,8 @@ void draw_height_map(const struct HeightMap* height_map)
     {
         glBindTexture(GL_TEXTURE_2D, height_map->texture.id);
 
-        glTranslatef(height_map->position[0], height_map->position[1], height_map->position[2]);
-        glRotatef(height_map->rotation[0], 1.0, 0.0, 0.0);
-        glRotatef(height_map->rotation[1], 0.0, 1.0, 0.0);
-        glRotatef(height_map->rotation[2], 0.0, 0.0, 1.0);
-        glScalef(height_map->scale[0], height_map->scale[1], height_map->scale[2]);
+        glTranslatef(height_map->position.x, height_map->position.y, height_map->position.z);
+        glScalef(height_map->scale.x, height_map->scale.y, height_map->scale.z);
 
         int i, j, k;
         int row;
@@ -179,11 +175,11 @@ void draw_entity(struct Entity *entity)
         load_material(&(entity->material));
         glBindTexture(GL_TEXTURE_2D, entity->texture.id);
 
-        glTranslatef(entity->position[0], entity->position[1], entity->position[2]);
-        glRotatef(entity->rotation[0], 1.0, 0.0, 0.0);
-        glRotatef(entity->rotation[1], 0.0, 1.0, 0.0);
-        glRotatef(entity->rotation[2], 0.0, 0.0, 1.0);
-        glScalef(entity->scale[0], entity->scale[1], entity->scale[2]);
+        glTranslatef(entity->position.x, entity->position.y, entity->position.z);
+        glRotatef(entity->rotation.x, 1.0, 0.0, 0.0);
+        glRotatef(entity->rotation.y, 0.0, 1.0, 0.0);
+        glRotatef(entity->rotation.z, 0.0, 0.0, 1.0);
+        glScalef(entity->scale.x, entity->scale.y, entity->scale.z);
 
         draw_model(&(entity->model));
         //draw_normals(&model, 1.0);

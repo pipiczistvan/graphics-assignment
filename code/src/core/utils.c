@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "core/utils.h"
 
 #include <math.h>
 #include <stdlib.h>
@@ -50,4 +50,16 @@ double degree_to_radian(double degree)
 double random_double(double a, double b)
 {
     return a + (double)(rand() / RAND_MAX) * (b - a);
+}
+
+double barry_centric(double p1_x, double p1_y,double p1_z,
+                    double p2_x, double p2_y,double p2_z,
+                    double p3_x, double p3_y,double p3_z,
+                    double pos_x, double pos_y)
+{
+    double det = (p2_z - p3_z) * (p1_x - p3_x) + (p3_x - p2_x) * (p1_z - p3_z);
+    double l1 = ((p2_z - p3_z) * (pos_x - p3_x) + (p3_x - p2_x) * (pos_y - p3_z)) / det;
+    double l2 = ((p3_z - p1_z) * (pos_x - p3_x) + (p1_x - p3_x) * (pos_y - p3_z)) / det;
+    double l3 = 1.0f - l1 - l2;
+    return l1 * p1_y + l2 * p2_y + l3 * p3_y;
 }

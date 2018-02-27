@@ -1,9 +1,9 @@
 #ifndef DRAW_H
 #define DRAW_H
 
-#include "entity/model.h"
-#include "entity/height_map.h"
-#include "entity/entity.h"
+#include "core/model.h"
+#include "core/height_map.h"
+#include "core/entity.h"
 
 /**
  * Draw the model.

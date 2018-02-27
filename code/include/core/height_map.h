@@ -3,14 +3,13 @@
 
 #include <GL/glut.h>
 
-#include "texture.h"
-#include "../../core/utils.h"
+#include "core/texture.h"
+#include "core/utils.h"
 
 struct HeightMap
 {
-    GLfloat position[3];
-    GLfloat rotation[3];
-    GLfloat scale[3];
+    struct Vector3d position;
+    struct Vector3d scale;
     struct Texture texture;
     int n_rows;
     int n_columns;
@@ -52,8 +51,6 @@ void calc_height_map_normals(struct HeightMap* height_map, double unit);
 void free_height_map(struct HeightMap* height_map);
 
 void set_height_map_position(struct HeightMap* height_map, GLfloat x, GLfloat y, GLfloat z);
-
-void set_height_map_rotation(struct HeightMap* height_map, GLfloat x, GLfloat y, GLfloat z);
 
 void set_height_map_scale(struct HeightMap* height_map, GLfloat x, GLfloat y, GLfloat z);
 

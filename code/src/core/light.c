@@ -1,4 +1,4 @@
-#include "light.h"
+#include "core/light.h"
 
 void load_light(struct Light *light, GLuint light_target)
 {

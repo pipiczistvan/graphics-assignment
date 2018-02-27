@@ -1,17 +1,9 @@
-#include "height_map.h"
+#include "core/height_map.h"
 
 #include <SOIL/SOIL.h>
-
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-void set_height_map_attribute(GLfloat attribute[], GLfloat x, GLfloat y, GLfloat z)
-{
-    attribute[0] = x;
-    attribute[1] = y;
-    attribute[2] = z;
-}
 
 void set_height_map(struct HeightMap* height_map, const char* filename, const char* texture, double unit)
 {
@@ -32,7 +24,6 @@ void set_height_map(struct HeightMap* height_map, const char* filename, const ch
     calc_height_map_normals(height_map, unit);
 
     set_height_map_position(height_map, 0.0, 0.0, 0.0);
-    set_height_map_rotation(height_map, 0.0, 0.0, 0.0);
     set_height_map_scale(height_map, 1.0, 1.0, 1.0);
     load_texture(texture, &(height_map->texture));
 }
@@ -113,38 +104,25 @@ void free_height_map(struct HeightMap* height_map)
 
 void set_height_map_position(struct HeightMap* height_map, GLfloat x, GLfloat y, GLfloat z)
 {
-    set_height_map_attribute(height_map->position, x, y, z);
-}
-
-void set_height_map_rotation(struct HeightMap* height_map, GLfloat x, GLfloat y, GLfloat z)
-{
-    set_height_map_attribute(height_map->rotation, x, y, z);
+    height_map->position.x = x;
+    height_map->position.y = y;
+    height_map->position.z = z;
 }
 
 void set_height_map_scale(struct HeightMap* height_map, GLfloat x, GLfloat y, GLfloat z)
 {
-    set_height_map_attribute(height_map->scale, x, y, z);
-}
-
-double barry_centric(double p1_x, double p1_y,double p1_z,
-                    double p2_x, double p2_y,double p2_z,
-                    double p3_x, double p3_y,double p3_z,
-                    double pos_x, double pos_y)
-{
-    double det = (p2_z - p3_z) * (p1_x - p3_x) + (p3_x - p2_x) * (p1_z - p3_z);
-    double l1 = ((p2_z - p3_z) * (pos_x - p3_x) + (p3_x - p2_x) * (pos_y - p3_z)) / det;
-    double l2 = ((p3_z - p1_z) * (pos_x - p3_x) + (p1_x - p3_x) * (pos_y - p3_z)) / det;
-    double l3 = 1.0f - l1 - l2;
-    return l1 * p1_y + l2 * p2_y + l3 * p3_y;
+    height_map->scale.x = x;
+    height_map->scale.y = y;
+    height_map->scale.z = z;
 }
 
 double get_terrain_height(struct HeightMap* height_map, GLfloat x, GLfloat z)
 {
-    double terrainX = x - height_map->position[0];
-    double terrainZ = z - height_map->position[2];
+    double terrainX = x - height_map->position.x;
+    double terrainZ = z - height_map->position.z;
 
-    double tileSizeX = height_map->scale[0] / height_map->n_rows;
-    double tileSizeZ = height_map->scale[2] / height_map->n_columns;
+    double tileSizeX = height_map->scale.x / height_map->n_rows;
+    double tileSizeZ = height_map->scale.z / height_map->n_columns;
 
     int gridX = floor(terrainX / tileSizeX);
     int gridZ = floor(terrainZ / tileSizeZ);
@@ -171,5 +149,5 @@ double get_terrain_height(struct HeightMap* height_map, GLfloat x, GLfloat z)
                 xCoord, zCoord);
     }
 
-    return terrainHeight * height_map->scale[1] + height_map->position[1];
+    return terrainHeight * height_map->scale.y + height_map->position.y;
 }
