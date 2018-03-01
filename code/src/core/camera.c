@@ -77,6 +77,30 @@ void set_view_point()
 	glTranslatef(-camera.position.x, -camera.position.y, -camera.position.z);
 }
 
+void limit_movement(struct HeightMap* height_map)
+{
+	camera.position.y = get_terrain_height(height_map, camera.position.x, camera.position.z) + 2.0;
+
+	double terrainX = (height_map->scale.x - 1) / 2.0 - 1;
+	double terrainZ = (height_map->scale.z - 1) / 2.0 - 1;
+	if (camera.position.x < -terrainX)
+	{
+		camera.position.x = -terrainX;
+	}
+	if (camera.position.x > terrainX)
+	{
+		camera.position.x = terrainX;
+	}
+	if (camera.position.z < -terrainZ)
+	{
+		camera.position.z = -terrainZ;
+	}
+	if (camera.position.z > terrainZ)
+	{
+		camera.position.z = terrainZ;
+	}
+}
+
 // PUBLIC
 
 void init_camera()
@@ -93,7 +117,8 @@ void init_camera()
 void update_camera(struct HeightMap* height_map, double delta)
 {
 	set_position(delta);
-	camera.position.y = get_terrain_height(height_map, camera.position.x, camera.position.z) + 2.0;
+	limit_movement(height_map);
+
 	set_view_point();
 }
 
