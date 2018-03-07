@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 
-int time;
+int t;
 
 double calc_elapsed_time()
 {
@@ -12,8 +12,8 @@ double calc_elapsed_time()
     double elapsed_time;
     
     current_time = glutGet(GLUT_ELAPSED_TIME);
-    elapsed_time = (double)(current_time - time) / 1000.0;
-    time = current_time;
+    elapsed_time = (double)(current_time - t) / 1000.0;
+    t = current_time;
 
     return elapsed_time;
 }

@@ -3,15 +3,17 @@
 #include "core/draw.h"
 #include "core/entity.h"
 #include "core/height_map.h"
+#include "scene/grasshopper.h"
 
 #define GRASS_COUNT 500
-#define TERRAIN_SCALE 100
 #define WALL_COUNT_PER_SIDE 10
 #define WALL_SCALE (TERRAIN_SCALE / WALL_COUNT_PER_SIDE)
+#define GRASSHOPPER_COUNT 30
 
 struct Entity skyboxEntity;
 struct Entity grassEntities[GRASS_COUNT];
 struct Entity wallEntities[WALL_COUNT_PER_SIDE * 4];
+struct Grasshopper grasshoppers[GRASSHOPPER_COUNT];
 
 void create_walls()
 {
@@ -78,7 +80,7 @@ void create_grasses()
 
 void init_world()
 {
-    set_height_map(&terrain, "res/heightmap2.png", "res/grassy_ground.png", 6.0 / TERRAIN_SCALE);
+    set_height_map(&terrain, "res/heightmap2.png", "res/soil_ground.png", 6.0 / TERRAIN_SCALE);
     set_height_map_scale(&terrain, TERRAIN_SCALE, 6.0, TERRAIN_SCALE);
     set_height_map_position(&terrain, -TERRAIN_SCALE / 2, 0.0, -TERRAIN_SCALE / 2);
 
@@ -87,18 +89,22 @@ void init_world()
 
     create_walls();
     create_grasses();
+
+    init_grasshoppers(grasshoppers, GRASSHOPPER_COUNT);
 }
 
 void update_world(double delta)
 {
     skyboxEntity.rotation.y += 1.0 * delta;
+
+    update_grasshoppers(grasshoppers, GRASSHOPPER_COUNT, &terrain, delta);
 }
 
 void draw_world()
 {
     glDisable(GL_FOG);
     draw_entity(&skyboxEntity);
-    glEnable(GL_FOG);
+    //glEnable(GL_FOG);
 
     draw_fog();
     draw_height_map(&terrain);
@@ -112,4 +118,6 @@ void draw_world()
     {
         draw_entity(&grassEntities[i]);
     }
+
+    draw_grasshoppers(grasshoppers, GRASSHOPPER_COUNT);
 }

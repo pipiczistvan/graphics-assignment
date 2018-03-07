@@ -1,6 +1,8 @@
 #ifndef WORLD_H
 #define WORLD_H
 
+#define TERRAIN_SCALE 100
+
 struct HeightMap terrain;
 
 void init_world();
