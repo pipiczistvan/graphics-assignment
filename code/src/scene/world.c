@@ -5,7 +5,7 @@
 #include "core/height_map.h"
 #include "scene/grasshopper.h"
 
-#define GRASS_COUNT 10
+#define GRASS_COUNT 20
 #define WALL_COUNT_PER_SIDE 10
 #define WALL_SCALE (TERRAIN_SCALE / WALL_COUNT_PER_SIDE)
 #define GRASSHOPPER_COUNT 10
@@ -74,7 +74,7 @@ void create_grasses()
         int x = rand() % TERRAIN_SCALE + -TERRAIN_SCALE / 2;
         int z = rand() % TERRAIN_SCALE + -TERRAIN_SCALE / 2;
         set_entity_position(&grassEntities[i], x, get_terrain_height(&terrain, x, z), z);
-        set_entity_scale(&grassEntities[i], 1.0, 1.0, 1.0);
+        set_entity_scale(&grassEntities[i], 2.0, 2.0, 2.0);
     }
 }
 

@@ -4,9 +4,9 @@
 #include "core/camera.h"
 
 #define JUMP_CHANCE 100
-#define GRAVITY -1.0
+#define GRAVITY -2.0
 #define JUMP_POWER 0.5
-#define SPEED 10.0
+#define SPEED 15.0
 
 void init_grasshoppers(struct Grasshopper grasshoppers[], int count)
 {
@@ -23,7 +23,7 @@ void init_grasshoppers(struct Grasshopper grasshoppers[], int count)
 
         set_entity_position(&(grasshoppers[i].entity), 0.0, 0.0, 0.0);
         set_entity_rotation(&(grasshoppers[i].entity), 0.0, 0.0, 0.0);
-        set_entity_scale(&(grasshoppers[i].entity), 1.0, 1.0, 1.0);
+        set_entity_scale(&(grasshoppers[i].entity), 1.5, 1.5, 1.5);
     }
 }
 
@@ -43,12 +43,12 @@ void update_grasshoppers(struct Grasshopper grasshoppers[], int count, struct He
                 grasshoppers[i].in_air = TRUE;
                 grasshoppers[i].upward_speed = JUMP_POWER;
                 grasshoppers[i].direction = position_relative_to_camera(position);
-            } /*else if (rand() % JUMP_CHANCE == 0)
+            } else if (rand() % JUMP_CHANCE == 0)
             {
                 grasshoppers[i].in_air = TRUE;
                 grasshoppers[i].upward_speed = JUMP_POWER;
                 grasshoppers[i].direction = rand() % 4;
-            }*/
+            }
         } else 
         {
             grasshoppers[i].upward_speed += GRAVITY * delta;

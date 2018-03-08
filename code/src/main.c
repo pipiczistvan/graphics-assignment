@@ -18,7 +18,7 @@ struct Light light;
 void set_lightings()
 {
     set_light_position(&light, -300.0, 100.0, 300.0, 0.0);
-    set_light_ambient(&light, 0.3, 0.3, 0.3, 0.0);
+    set_light_ambient(&light, 0.5, 0.5, 0.5, 0.0);
     set_light_diffuse(&light, 0.7, 0.7, 0.7, 0.0);
     set_light_specular(&light, 1.0, 1.0, 1.0, 0.0);
 

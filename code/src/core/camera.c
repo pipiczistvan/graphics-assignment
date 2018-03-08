@@ -8,7 +8,7 @@
 #define LOOK_SPEED 0.1
 #define MOVE_SPEED 10.0
 #define HEIGHT 5.0
-#define CAMERA_RANGE 5.0
+#define CAMERA_RANGE 10.0
 
 struct Camera camera;
 
