@@ -3,6 +3,8 @@
 #include "core/draw.h"
 #include "core/entity.h"
 #include "core/height_map.h"
+#include "core/input.h"
+#include "core/light.h"
 #include "scene/grasshopper.h"
 
 #define GRASS_COUNT 20
@@ -14,6 +16,23 @@ struct Entity skyboxEntity;
 struct Entity grassEntities[GRASS_COUNT];
 struct Entity wallEntities[WALL_COUNT_PER_SIDE * 4];
 struct Grasshopper grasshoppers[GRASSHOPPER_COUNT];
+
+int l_pressed = FALSE;
+int f_pressed = FALSE;
+double light_ambient = 0.5;
+int show_fog = FALSE;
+
+struct Light light;
+
+void create_light()
+{
+    set_light_position(&light, -300.0, 100.0, 300.0, 0.0);
+    set_light_ambient(&light, light_ambient, light_ambient, light_ambient, 0.0);
+    set_light_diffuse(&light, 0.7, 0.7, 0.7, 0.0);
+    set_light_specular(&light, 1.0, 1.0, 1.0, 0.0);
+
+    load_light(&light, GL_LIGHT0);
+}
 
 void create_walls()
 {
@@ -89,6 +108,7 @@ void init_world()
 
     create_walls();
     create_grasses();
+    create_light();
 
     init_grasshoppers(grasshoppers, GRASSHOPPER_COUNT);
 }
@@ -98,15 +118,52 @@ void update_world(double delta)
     skyboxEntity.rotation.y += 1.0 * delta;
 
     update_grasshoppers(grasshoppers, GRASSHOPPER_COUNT, &terrain, delta);
+
+    if (keyboard.F == PRESSED)
+    {
+        if (f_pressed == FALSE)
+        {
+            if (show_fog == TRUE)
+            {
+                show_fog = FALSE;
+            } else {
+                show_fog = TRUE;
+            }
+        }
+        f_pressed = TRUE;
+    } else {
+        f_pressed = FALSE;
+    }
+
+    if (keyboard.L == PRESSED)
+    {
+        if (l_pressed == FALSE)
+        {
+            light_ambient += 0.1;
+            if (light_ambient >= 0.8)
+            {
+                light_ambient = 0.2;
+            }
+            set_light_ambient(&light, light_ambient, light_ambient, light_ambient, 0.0);
+            load_light(&light, GL_LIGHT0);
+        }
+        l_pressed = TRUE;
+    } else {
+        l_pressed = FALSE;
+    }
 }
 
 void draw_world()
 {
-    glDisable(GL_FOG);
-    draw_entity(&skyboxEntity);
-    //glEnable(GL_FOG);
+    if (show_fog == TRUE)
+    {
+        glEnable(GL_FOG);
+        draw_fog();
+    } else {
+        glDisable(GL_FOG);
+    }
 
-    draw_fog();
+    draw_entity(&skyboxEntity);
     draw_height_map(&terrain);
     
     int i;

@@ -8,22 +8,9 @@
 #include "core/input.h"
 #include "core/utils.h"
 #include "core/camera.h"
-#include "core/light.h"
 #include "core/draw.h"
 #include "core/entity.h"
 #include "scene/world.h"
-
-struct Light light;
-
-void set_lightings()
-{
-    set_light_position(&light, -300.0, 100.0, 300.0, 0.0);
-    set_light_ambient(&light, 0.5, 0.5, 0.5, 0.0);
-    set_light_diffuse(&light, 0.7, 0.7, 0.7, 0.0);
-    set_light_specular(&light, 1.0, 1.0, 1.0, 0.0);
-
-    load_light(&light, GL_LIGHT0);
-}
 
 void display_handler()
 {
@@ -60,8 +47,6 @@ int main(int argc, char* argv[])
     init_input(passive_motion_func_callback);
     init_camera();
     init_world();
-
-    set_lightings();
 
     glutDisplayFunc(display_handler);
 

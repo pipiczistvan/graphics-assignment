@@ -10,6 +10,8 @@ struct Keyboard
     int D;
     int S;
     int W;
+    int F;
+    int L;
     int ESCAPE;
     int F1;
 };

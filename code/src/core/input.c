@@ -24,6 +24,12 @@ void key_handler(unsigned char key, int x, int y)
         case KEY_W:
             keyboard.W = PRESSED;
             break;
+        case KEY_F:
+            keyboard.F = PRESSED;
+            break;
+        case KEY_L:
+            keyboard.L = PRESSED;
+            break;
         case KEY_ESCAPE:
             keyboard.ESCAPE = PRESSED;
             break;
@@ -47,6 +53,12 @@ void key_up_handler(unsigned char key, int x, int y)
             break;
         case KEY_W:
             keyboard.W = RELEASED;
+            break;
+        case KEY_F:
+            keyboard.F = RELEASED;
+            break;
+        case KEY_L:
+            keyboard.L = RELEASED;
             break;
         case KEY_ESCAPE:
             keyboard.ESCAPE = RELEASED;

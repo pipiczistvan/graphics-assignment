@@ -191,6 +191,6 @@ void draw_fog()
 {
     glFogfv(GL_FOG_COLOR, fogColor);
     glFogi(GL_FOG_MODE, GL_LINEAR);
-    glFogf(GL_FOG_START, 10.0f);
-    glFogf(GL_FOG_END, 20.0f);
+    glFogf(GL_FOG_START, 20.0f);
+    glFogf(GL_FOG_END, 40.0f);
 }
