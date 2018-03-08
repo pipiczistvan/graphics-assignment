@@ -8,6 +8,7 @@
 #define LOOK_SPEED 0.1
 #define MOVE_SPEED 10.0
 #define HEIGHT 5.0
+#define CAMERA_RANGE 5.0
 
 struct Camera camera;
 
@@ -143,4 +144,46 @@ void rotate_camera(double horizontal, double vertical)
 	if (camera.pose.x > 360.0) {
 		camera.pose.x -= 360.0;
 	}
+}
+int is_in_camera_range(struct Vector3d *position)
+{
+	double xOffset = camera.position.x - position->x;
+	double zOffset = camera.position.z - position->z;
+
+	if (sqrt(xOffset * xOffset + zOffset * zOffset) < CAMERA_RANGE)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+	First bit:
+		0 - z axis
+		1 - x axis
+	Second bit:
+		0 - +direction
+		1 - -direction
+*/
+int position_relative_to_camera(struct Vector3d *position)
+{
+	double xOffset = camera.position.x - position->x;
+	double zOffset = camera.position.z - position->z;
+
+	int direction = 0;
+
+	if (abs(xOffset) > abs(zOffset))
+	{
+		direction = direction | 2;
+		if (xOffset > 0) {
+			direction = direction | 1;
+		}
+	} else
+	{
+		if (zOffset > 0) {
+			direction = direction | 1;
+		}
+	}
+
+	return direction;
 }

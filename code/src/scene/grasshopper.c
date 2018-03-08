@@ -1,6 +1,7 @@
 #include "scene/grasshopper.h"
 
 #include "scene/world.h"
+#include "core/camera.h"
 
 #define JUMP_CHANCE 100
 #define GRAVITY -1.0
@@ -37,33 +38,38 @@ void update_grasshoppers(struct Grasshopper grasshoppers[], int count, struct He
 
         if (grasshoppers[i].in_air == FALSE)
         {
-            if (rand() % JUMP_CHANCE == 0)
+            if (is_in_camera_range(position) == TRUE)
+            {
+                grasshoppers[i].in_air = TRUE;
+                grasshoppers[i].upward_speed = JUMP_POWER;
+                grasshoppers[i].direction = position_relative_to_camera(position);
+            } /*else if (rand() % JUMP_CHANCE == 0)
             {
                 grasshoppers[i].in_air = TRUE;
                 grasshoppers[i].upward_speed = JUMP_POWER;
                 grasshoppers[i].direction = rand() % 4;
-            }
+            }*/
         } else 
         {
             grasshoppers[i].upward_speed += GRAVITY * delta;
             position->y += grasshoppers[i].upward_speed;
             
             switch (grasshoppers[i].direction) {
-                case 0:
-                    rotation->y = 0;
-                    position->x += SPEED * delta;
-                    break;
-                case 1:
+                case 3:
                     rotation->y = 180;
                     position->x -= SPEED * delta;
                     break;
                 case 2:
-                    rotation->y = -90;
-                    position->z += SPEED * delta;
+                    rotation->y = 0;
+                    position->x += SPEED * delta;
                     break;
-                case 3:
+                case 1:
                     rotation->y = 90;
                     position->z -= SPEED * delta;
+                    break;
+                case 0:
+                    rotation->y = -90;
+                    position->z += SPEED * delta;
                     break;
             }
 
