@@ -6,25 +6,38 @@
 #define VIEWPORT_ASPECT 50.0
 
 int window;
+int projection = PERSPECTIVE;
+GLsizei width, height;
 
 // PRIVATE
 
-void reshape(GLsizei width, GLsizei height)
+void redisplay()
 {
-	glViewport (0, 0, width, height);
+    glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(50.0, (GLdouble)width / (GLdouble)height, 0.01, 10000.0);
+    if (projection == PERSPECTIVE)
+    {
+	    gluPerspective(50.0, (GLdouble)width / (GLdouble)height, 0.01, 10000.0);
+        glEnable(GL_DEPTH_TEST);
+    } else {
+	    gluOrtho2D(0.0, 1.0, 1.0, 0.0);
+        glDisable(GL_DEPTH_TEST);
+    }
+}
+
+void reshape(GLsizei w, GLsizei h)
+{
+    width = w;
+    height = h;
+
+    redisplay();
 }
 
 void initialize()
 {
     glEnable(GL_NORMALIZE);
     glEnable(GL_AUTO_NORMAL);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_FOG);
 
     glShadeModel(GL_SMOOTH);
     glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -56,4 +69,10 @@ void init_display(int width, int height, char* title)
 void close_display()
 {
     glutDestroyWindow(window);
+}
+
+void set_display_mode(int mode)
+{
+    projection = mode;
+    redisplay();
 }
