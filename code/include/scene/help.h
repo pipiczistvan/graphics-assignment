@@ -3,6 +3,6 @@
 
 void draw_help();
 
-void init_world();
+void init_help();
 
 #endif // HELP_H

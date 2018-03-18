@@ -2,6 +2,7 @@
 
 #include "scene/world.h"
 #include "core/camera.h"
+#include "core/draw.h"
 
 #define JUMP_CHANCE 100
 #define GRAVITY -2.0
