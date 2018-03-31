@@ -7,10 +7,10 @@
 #include "core/light.h"
 #include "scene/grasshopper.h"
 
-#define GRASS_COUNT 20
+#define GRASS_COUNT 10
 #define WALL_COUNT_PER_SIDE 10
 #define WALL_SCALE (TERRAIN_SCALE / WALL_COUNT_PER_SIDE)
-#define GRASSHOPPER_COUNT 10
+#define GRASSHOPPER_COUNT 5
 
 struct Entity skyboxEntity;
 struct Entity grassEntities[GRASS_COUNT];

@@ -114,9 +114,11 @@ void passive_motion_handler(int x, int y)
         int d_x = x - half_window_width;
         int d_y = y - half_window_height;
 
-        passive_motion_func(d_x, d_y);
-
-        glutWarpPointer(half_window_width, half_window_height);
+        if (d_x != 0 || d_y != 0)
+        {
+            passive_motion_func(d_x, d_y);
+            glutWarpPointer(half_window_width, half_window_height);
+        }
     }
 }
 
