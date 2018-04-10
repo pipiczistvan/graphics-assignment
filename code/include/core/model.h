@@ -51,6 +51,7 @@ struct Model
     int n_normals;
     int n_triangles;
     int n_quads;
+    int displayListIndex;
     struct Vertex* vertices;
     struct TextureVertex* texture_vertices;
     struct Vertex* normals;

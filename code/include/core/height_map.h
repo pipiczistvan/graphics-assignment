@@ -15,6 +15,7 @@ struct HeightMap
     int n_columns;
     double* heights;
     struct Vector3d* normals;
+    int displayListIndex;
 };
 
 /**

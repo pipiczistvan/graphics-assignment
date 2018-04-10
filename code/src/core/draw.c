@@ -3,8 +3,6 @@
 #include <GL/glut.h>
 #include <stdio.h>
 
-GLfloat fogColor[] = {0.3, 0.3, 0.3, 1.0};
-
 void draw_triangles(const struct Model* model)
 {
     int i, k;
@@ -102,7 +100,7 @@ void draw_normals(const struct Model* model, double length)
     glEnd();
 }
 
-void draw_height_map(const struct HeightMap* height_map)
+void draw_height_map_entity(const struct HeightMap* height_map)
 {
     glPushMatrix();
     {
@@ -110,34 +108,39 @@ void draw_height_map(const struct HeightMap* height_map)
 
         glTranslatef(height_map->position.x, height_map->position.y, height_map->position.z);
         glScalef(height_map->scale.x, height_map->scale.y, height_map->scale.z);
-
-        int i, j, k;
-        int row;
-        double x, y, z;
-        struct Vector3d normal;
-
-        for (i = 0; i < height_map->n_rows - 1; ++i) {
-            glBegin(GL_TRIANGLE_STRIP);
-            for (j = 0; j < height_map->n_columns; ++j) {
-                for (k = 0; k < 2; ++k) {
-
-                    row = i + k;
-                    x = (double)j / height_map->n_columns;
-                    y = get_height_map_value(height_map, row, j);
-                    z = (double)row / height_map->n_rows;
-
-                    glTexCoord2f(x, z);
-
-                    get_height_map_normal(height_map, row, j, &normal);
-                    glNormal3d(normal.x, normal.y, normal.z);
-
-                    glVertex3d(x, y, z);
-                } 
-            }
-            glEnd();
-        }
+        
+        glCallList(height_map->displayListIndex);
     }
     glPopMatrix();
+}
+
+void draw_height_map(const struct HeightMap* height_map)
+{
+    int i, j, k;
+    int row;
+    double x, y, z;
+    struct Vector3d normal;
+
+    for (i = 0; i < height_map->n_rows - 1; ++i) {
+        glBegin(GL_TRIANGLE_STRIP);
+        for (j = 0; j < height_map->n_columns; ++j) {
+            for (k = 0; k < 2; ++k) {
+
+                row = i + k;
+                x = (double)j / height_map->n_columns;
+                y = get_height_map_value(height_map, row, j);
+                z = (double)row / height_map->n_rows;
+
+                glTexCoord2f(x, z);
+
+                get_height_map_normal(height_map, row, j, &normal);
+                glNormal3d(normal.x, normal.y, normal.z);
+
+                glVertex3d(x, y, z);
+            } 
+        }
+        glEnd();
+    }
 }
 
 void draw_height_map_normals(const struct HeightMap* height_map, double length)
@@ -181,16 +184,17 @@ void draw_entity(struct Entity *entity)
         glRotatef(entity->rotation.z, 0.0, 0.0, 1.0);
         glScalef(entity->scale.x, entity->scale.y, entity->scale.z);
 
-        draw_model(&(entity->model));
+        glCallList(entity->model.displayListIndex);
+        //draw_model(&(entity->model));
         //draw_normals(&model, 1.0);
     }
     glPopMatrix();
 }
 
-void draw_fog()
+void draw_fog(const struct Fog *fog)
 {
-    glFogfv(GL_FOG_COLOR, fogColor);
-    glFogi(GL_FOG_MODE, GL_LINEAR);
-    glFogf(GL_FOG_START, 20.0f);
-    glFogf(GL_FOG_END, 40.0f);
+    glFogfv(GL_FOG_COLOR, fog->color);
+    glFogi(GL_FOG_MODE, GL_EXP);
+    glFogf(GL_FOG_DENSITY, fog->density);
+    glHint(GL_FOG_HINT, GL_NICEST); 
 }

@@ -1,4 +1,5 @@
 #include "core/height_map.h"
+#include "core/draw.h"
 
 #include <SOIL/SOIL.h>
 #include <math.h>
@@ -26,6 +27,13 @@ void set_height_map(struct HeightMap* height_map, const char* filename, const ch
     set_height_map_position(height_map, 0.0, 0.0, 0.0);
     set_height_map_scale(height_map, 1.0, 1.0, 1.0);
     load_texture(texture, &(height_map->texture));
+
+    height_map->displayListIndex = glGenLists(1);
+    glNewList(height_map->displayListIndex, GL_COMPILE);
+    {
+        draw_height_map(height_map);
+    }
+    glEndList();
 }
 
 void calc_height_map_heights(struct HeightMap* height_map, Pixel* image)

@@ -1,4 +1,5 @@
 #include "core/model.h"
+#include "core/draw.h"
 
 #include <math.h>
 #include <stdio.h>
@@ -117,6 +118,13 @@ int load_model(const char* filename, struct Model* model)
     if (model->n_normals != model->n_vertices) {
         calc_normals(model);
     }
+
+    model->displayListIndex = glGenLists(1);
+    glNewList(model->displayListIndex, GL_COMPILE);
+    {
+        draw_model(model);
+    }
+    glEndList();
 
     return TRUE;
 }

@@ -2,13 +2,13 @@
 
 void load_light(struct Light *light, GLuint light_target)
 {
-    glLightfv(GL_LIGHT0, GL_POSITION, light->position);
-    glLightfv(GL_LIGHT0, GL_AMBIENT, light->ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light->diffuse);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light->specular);
-
     glEnable(GL_LIGHTING);
     glEnable(light_target);
+
+    glLightfv(light_target, GL_POSITION, light->position);
+    glLightfv(light_target, GL_AMBIENT, light->ambient);
+    glLightfv(light_target, GL_DIFFUSE, light->diffuse);
+    glLightfv(light_target, GL_SPECULAR, light->specular);
 }
 
 void set_light_attribute(GLfloat attribute[], GLfloat x, GLfloat y, GLfloat z, GLfloat w)

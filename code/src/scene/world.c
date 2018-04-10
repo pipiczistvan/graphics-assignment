@@ -5,31 +5,34 @@
 #include "core/height_map.h"
 #include "core/input.h"
 #include "core/light.h"
+#include "core/fog.h"
 #include "scene/grasshopper.h"
 
-#define GRASS_COUNT 10
+#define GRASS_COUNT 30
 #define WALL_COUNT_PER_SIDE 10
 #define WALL_SCALE (TERRAIN_SCALE / WALL_COUNT_PER_SIDE)
-#define GRASSHOPPER_COUNT 5
+#define GRASSHOPPER_COUNT 10
+#define FOG_DENSITY_LIMIT 0.1
 
 struct Entity skyboxEntity;
 struct Entity grassEntities[GRASS_COUNT];
 struct Entity wallEntities[WALL_COUNT_PER_SIDE * 4];
 struct Grasshopper grasshoppers[GRASSHOPPER_COUNT];
+struct Fog fog;
 
 int l_pressed = FALSE;
 int f_pressed = FALSE;
 double light_ambient = 0.5;
-int show_fog = FALSE;
+double delta_density = -0.05;
 
 struct Light light;
 
 void create_light()
 {
-    set_light_position(&light, -300.0, 100.0, 300.0, 0.0);
-    set_light_ambient(&light, light_ambient, light_ambient, light_ambient, 0.0);
-    set_light_diffuse(&light, 0.7, 0.7, 0.7, 0.0);
-    set_light_specular(&light, 1.0, 1.0, 1.0, 0.0);
+    set_light_position(&light, 0.0, 10.0, 0.0, 0.0);
+    set_light_ambient(&light, light_ambient, light_ambient, light_ambient, 1.0);
+    set_light_diffuse(&light, 1.0, 1.0, 1.0, 1.0);
+    set_light_specular(&light, 1.0, 1.0, 1.0, 1.0);
 
     load_light(&light, GL_LIGHT0);
 }
@@ -97,6 +100,15 @@ void create_grasses()
     }
 }
 
+void create_fog()
+{
+    fog.density = 0.0;
+    fog.color[0] = 0.3;
+    fog.color[1] = 0.3;
+    fog.color[2] = 0.3;
+    fog.color[3] = 1.0;
+}
+
 void init_world()
 {
     set_height_map(&terrain, "res/heightmap2.png", "res/soil_ground.png", 6.0 / TERRAIN_SCALE);
@@ -109,6 +121,7 @@ void init_world()
     create_walls();
     create_grasses();
     create_light();
+    create_fog();
 
     init_grasshoppers(grasshoppers, GRASSHOPPER_COUNT);
 }
@@ -116,6 +129,14 @@ void init_world()
 void update_world(double delta)
 {
     skyboxEntity.rotation.y += 1.0 * delta;
+    fog.density += delta_density * delta;
+    if (fog.density < 0.0) 
+    {
+        fog.density = 0.0;
+    } else if (fog.density > FOG_DENSITY_LIMIT)
+    {
+        fog.density = FOG_DENSITY_LIMIT;
+    }
 
     update_grasshoppers(grasshoppers, GRASSHOPPER_COUNT, &terrain, delta);
 
@@ -123,12 +144,7 @@ void update_world(double delta)
     {
         if (f_pressed == FALSE)
         {
-            if (show_fog == TRUE)
-            {
-                show_fog = FALSE;
-            } else {
-                show_fog = TRUE;
-            }
+           delta_density *= -1; 
         }
         f_pressed = TRUE;
     } else {
@@ -155,16 +171,11 @@ void update_world(double delta)
 
 void draw_world()
 {
-    if (show_fog == TRUE)
-    {
-        glEnable(GL_FOG);
-        draw_fog();
-    } else {
-        glDisable(GL_FOG);
-    }
+    glEnable(GL_FOG);
+    draw_fog(&fog);
 
     draw_entity(&skyboxEntity);
-    draw_height_map(&terrain);
+    draw_height_map_entity(&terrain);
     
     int i;
     for (i = 0; i < WALL_COUNT_PER_SIDE * 4; i++)

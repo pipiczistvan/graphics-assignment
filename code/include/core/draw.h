@@ -4,6 +4,7 @@
 #include "core/model.h"
 #include "core/height_map.h"
 #include "core/entity.h"
+#include "core/fog.h"
 
 /**
  * Draw the model.
@@ -27,6 +28,9 @@ void draw_quads(const struct Model* model);
  */
 void draw_normals(const struct Model* model, double length);
 
+
+void draw_height_map_entity(const struct HeightMap* height_map);
+
 /**
  * Draw height map.
  */
@@ -39,6 +43,6 @@ void draw_height_map_normals(const struct HeightMap* height_map, double length);
 
 void draw_entity(struct Entity *Entity);
 
-void draw_fog();
+void draw_fog(const struct Fog *fog);
 
 #endif // DRAW_H
