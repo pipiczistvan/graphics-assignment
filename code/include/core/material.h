@@ -14,6 +14,11 @@ struct Material
 struct Material GOLD;
 struct Material JADE;
 struct Material DEFAULT;
+struct Material RED_RUBBER;
+struct Material BRONZE;
+struct Material GREEN_RUBBER;
+struct Material GREEN_PLASTIC;
+struct Material OBSIDIAN;
 
 void load_material(struct Material *material);
 

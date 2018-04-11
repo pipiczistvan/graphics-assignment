@@ -2,8 +2,8 @@
 #define ENTITY_H
 
 #include <GL/glut.h>
+#include <obj/model.h>
 
-#include "core/model.h"
 #include "core/texture.h"
 #include "core/material.h"
 #include "core/utils.h"

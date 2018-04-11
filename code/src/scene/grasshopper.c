@@ -4,7 +4,7 @@
 #include "core/camera.h"
 #include "core/draw.h"
 
-#define JUMP_CHANCE 100
+#define JUMP_CHANCE 250
 #define GRAVITY -2.0
 #define JUMP_POWER 0.5
 #define SPEED 15.0
@@ -20,11 +20,22 @@ void init_grasshoppers(struct Grasshopper grasshoppers[], int count)
     {
         grasshoppers[i].entity.model = grasshopperEntity.model;
         grasshoppers[i].entity.texture = grasshopperEntity.texture;
-        grasshoppers[i].entity.material = grasshopperEntity.material;
 
         set_entity_position(&(grasshoppers[i].entity), 0.0, 0.0, 0.0);
         set_entity_rotation(&(grasshoppers[i].entity), 0.0, 0.0, 0.0);
         set_entity_scale(&(grasshoppers[i].entity), 1.5, 1.5, 1.5);
+        switch (rand() % 3) 
+        {
+            case 0:
+                grasshoppers[i].entity.material = JADE;
+                break;
+            case 1:
+                grasshoppers[i].entity.material = GOLD;
+                break;
+            case 2:
+                grasshoppers[i].entity.material = OBSIDIAN;
+                break;
+        }
     }
 }
 

@@ -1,4 +1,5 @@
 #include "core/entity.h"
+#include <obj/load.h>
 
 void set_entity(struct Entity *entity, const char* model, const char* texture, struct Material *material)
 {
@@ -6,10 +7,7 @@ void set_entity(struct Entity *entity, const char* model, const char* texture, s
     set_entity_rotation(entity, 0.0, 0.0, 0.0);
     set_entity_scale(entity, 1.0, 1.0, 1.0);
     
-    load_model(model, &(entity->model));
-    print_model_info(&(entity->model));
-    print_bounding_box(&(entity->model));
-
+    load_model(&(entity->model), model);
     load_texture(texture, &(entity->texture));
     
     entity->material = *material;

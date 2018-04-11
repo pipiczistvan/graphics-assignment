@@ -3,11 +3,13 @@
 
 #include <GL/glut.h>
 
+#include "core/material.h"
 #include "core/texture.h"
 #include "core/utils.h"
 
 struct HeightMap
 {
+    struct Material material;
     struct Vector3d position;
     struct Vector3d scale;
     struct Texture texture;
@@ -15,13 +17,13 @@ struct HeightMap
     int n_columns;
     double* heights;
     struct Vector3d* normals;
-    int displayListIndex;
+    int display_list;
 };
 
 /**
  * Load height map from image file.
  */
-void set_height_map(struct HeightMap* height_map, const char* filename, const char* texture, double unit);
+void set_height_map(struct HeightMap* height_map, const char* filename, const char* texture, double unit, struct Material *material);
 
 /**
  * Calculate the height values of the height map from image.

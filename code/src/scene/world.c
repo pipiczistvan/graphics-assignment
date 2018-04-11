@@ -22,14 +22,14 @@ struct Fog fog;
 
 int l_pressed = FALSE;
 int f_pressed = FALSE;
-double light_ambient = 0.5;
+double light_ambient = 0.3;
 double delta_density = -0.05;
 
 struct Light light;
 
 void create_light()
 {
-    set_light_position(&light, 0.0, 10.0, 0.0, 0.0);
+    set_light_position(&light, 10.0, 10.0, 10.0, 0.0);
     set_light_ambient(&light, light_ambient, light_ambient, light_ambient, 1.0);
     set_light_diffuse(&light, 1.0, 1.0, 1.0, 1.0);
     set_light_specular(&light, 1.0, 1.0, 1.0, 1.0);
@@ -84,7 +84,7 @@ void create_walls()
 
 void create_grasses()
 {
-    set_entity(&grassEntities[0], "res/grass.obj", "res/grass.png", &DEFAULT);
+    set_entity(&grassEntities[0], "res/grass.obj", "res/grass.png", &GREEN_RUBBER);
 
     int i;
     for (i = 0; i < GRASS_COUNT; i++)
@@ -111,7 +111,7 @@ void create_fog()
 
 void init_world()
 {
-    set_height_map(&terrain, "res/heightmap2.png", "res/soil_ground.png", 6.0 / TERRAIN_SCALE);
+    set_height_map(&terrain, "res/heightmap2.png", "res/soil_ground.png", 6.0 / TERRAIN_SCALE, &DEFAULT);
     set_height_map_scale(&terrain, TERRAIN_SCALE, 6.0, TERRAIN_SCALE);
     set_height_map_position(&terrain, -TERRAIN_SCALE / 2, 0.0, -TERRAIN_SCALE / 2);
 

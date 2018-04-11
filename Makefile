@@ -1,5 +1,5 @@
 CC=gcc
-LIBS=-lSOIL -lglut32 -lopengl32 -lglu32 -lm
+LIBS=-lSOIL -lglut32 -lopengl32 -lglu32 -lm -lobj
 CFLAGS=-Wall
 
 SRC=$(wildcard code/src/**/*.c) $(wildcard code/src/*.c)

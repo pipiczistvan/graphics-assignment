@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void set_height_map(struct HeightMap* height_map, const char* filename, const char* texture, double unit)
+void set_height_map(struct HeightMap* height_map, const char* filename, const char* texture, double unit, struct Material *material)
 {
     Pixel* image;
     int width;
@@ -27,9 +27,10 @@ void set_height_map(struct HeightMap* height_map, const char* filename, const ch
     set_height_map_position(height_map, 0.0, 0.0, 0.0);
     set_height_map_scale(height_map, 1.0, 1.0, 1.0);
     load_texture(texture, &(height_map->texture));
+    height_map->material = *material;
 
-    height_map->displayListIndex = glGenLists(1);
-    glNewList(height_map->displayListIndex, GL_COMPILE);
+    height_map->display_list = glGenLists(1);
+    glNewList(height_map->display_list, GL_COMPILE);
     {
         draw_height_map(height_map);
     }
