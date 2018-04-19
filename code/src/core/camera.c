@@ -81,7 +81,7 @@ void set_view_point()
 
 void limit_movement(struct HeightMap* height_map)
 {
-	camera.position.y = get_terrain_height(height_map, camera.position.x, camera.position.z) + HEIGHT;
+	camera.position.y = get_terrain_height_on_pos(height_map, camera.position.x, camera.position.z) + HEIGHT;
 
 	double terrainX = (height_map->scale.x - 1) / 2.0 - 1;
 	double terrainZ = (height_map->scale.z - 1) / 2.0 - 1;

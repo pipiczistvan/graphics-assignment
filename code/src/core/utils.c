@@ -47,6 +47,11 @@ double degree_to_radian(double degree)
 	return degree * M_PI / 180.0;
 }
 
+double radian_to_degree(double radian)
+{
+    return radian / M_PI * 180.0;
+}
+
 double random_double(double a, double b)
 {
     return a + (double)(rand() / RAND_MAX) * (b - a);

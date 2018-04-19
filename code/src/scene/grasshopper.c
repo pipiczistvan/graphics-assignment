@@ -3,6 +3,7 @@
 #include "scene/world.h"
 #include "core/camera.h"
 #include "core/draw.h"
+#include <math.h>
 
 #define JUMP_CHANCE 250
 #define GRAVITY -2.0
@@ -85,7 +86,6 @@ void update_grasshoppers(struct Grasshopper grasshoppers[], int count, struct He
                     break;
             }
 
-            
             double terrainX = (terrain->scale.x - 1) / 2.0 - 1;
             double terrainZ = (terrain->scale.z - 1) / 2.0 - 1;
             if (position->x < -terrainX)
@@ -105,13 +105,17 @@ void update_grasshoppers(struct Grasshopper grasshoppers[], int count, struct He
                 position->z = terrainZ;
             }
 
-            double terrain_height = get_terrain_height(terrain, position->x, position->z);
+            double terrain_height = get_terrain_height_on_pos(terrain, position->x, position->z);
 
             if (position->y < terrain_height) 
             {
                 grasshoppers[i].upward_speed = 0;
                 grasshoppers[i].in_air = FALSE;
                 position->y = terrain_height;
+
+                struct Vector3d terrain_normal;
+                get_height_map_normal_on_pos(terrain, position->z, position->x, &terrain_normal);
+                rotation->x = radian_to_degree(atan(terrain_normal.x));
             }
         }
     }

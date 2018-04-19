@@ -125,7 +125,21 @@ void set_height_map_scale(struct HeightMap* height_map, GLfloat x, GLfloat y, GL
     height_map->scale.z = z;
 }
 
-double get_terrain_height(struct HeightMap* height_map, GLfloat x, GLfloat z)
+void get_height_map_normal_on_pos(const struct HeightMap* height_map, GLfloat x, GLfloat z, struct Vector3d* normal)
+{
+    double terrainX = x - height_map->position.x;
+    double terrainZ = z - height_map->position.z;
+
+    double tileSizeX = height_map->scale.x / height_map->n_rows;
+    double tileSizeZ = height_map->scale.z / height_map->n_columns;
+
+    int gridX = floor(terrainX / tileSizeX);
+    int gridZ = floor(terrainZ / tileSizeZ);
+
+    get_height_map_normal(height_map, gridX, gridZ, normal);
+}
+
+double get_terrain_height_on_pos(struct HeightMap* height_map, GLfloat x, GLfloat z)
 {
     double terrainX = x - height_map->position.x;
     double terrainZ = z - height_map->position.z;

@@ -57,6 +57,8 @@ void set_height_map_position(struct HeightMap* height_map, GLfloat x, GLfloat y,
 
 void set_height_map_scale(struct HeightMap* height_map, GLfloat x, GLfloat y, GLfloat z);
 
-double get_terrain_height(struct HeightMap* height_map, GLfloat x, GLfloat z);
+void get_height_map_normal_on_pos(const struct HeightMap* height_map, GLfloat x, GLfloat z, struct Vector3d* normal);
+
+double get_terrain_height_on_pos(struct HeightMap* height_map, GLfloat x, GLfloat z);
 
 #endif // HEIGHT_MAP_H
