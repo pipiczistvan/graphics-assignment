@@ -13,7 +13,9 @@ void draw_height_map_entity(struct HeightMap* height_map);
  */
 void draw_height_map(struct HeightMap* height_map);
 
-void draw_entity(struct Entity *Entity);
+void draw_entity(struct Entity *entity);
+
+void draw_entities(struct Entity *entities, int entity_count);
 
 void draw_fog(const struct Fog *fog);
 

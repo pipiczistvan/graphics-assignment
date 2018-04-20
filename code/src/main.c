@@ -13,6 +13,8 @@
 #include "scene/world.h"
 #include "scene/help.h"
 
+struct World world;
+
 int show_help = FALSE;
 int help_pressed = FALSE;
 
@@ -23,10 +25,10 @@ void display_world()
     glLoadIdentity();
 
     double delta = calc_elapsed_time();
-    update_world(delta);
-    update_camera(&terrain, delta);
+    update_world(&world, delta);
+    update_camera(&(world.terrain), delta);
     
-    draw_world();
+    draw_world(&world);
 
     glutSwapBuffers();
 }
@@ -90,7 +92,7 @@ int main(int argc, char* argv[])
     init_display(640, 480, "Graphics assignment");
     init_input(passive_motion_func_callback);
     init_camera();
-    init_world();
+    init_world(&world);
     init_help();
 
     glutDisplayFunc(display_handler);

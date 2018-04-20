@@ -48,6 +48,15 @@ void draw_height_map(struct HeightMap* height_map)
     }
 }
 
+void draw_entities(struct Entity *entities, int entity_count)
+{
+    int i;
+    for (i = 0; i < entity_count; i++)
+    {
+        draw_entity(entities + i);
+    }
+}
+
 void draw_entity(struct Entity *entity)
 {
     glPushMatrix();

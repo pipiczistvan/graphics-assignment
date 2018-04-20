@@ -8,6 +8,8 @@ passive_motion_func_type passive_motion_func;
 
 int mouse_released = FALSE;
 
+// PRIVATE
+
 void key_handler(unsigned char key, int x, int y)
 {
 	switch (key) 
@@ -126,6 +128,8 @@ void idle_handler()
 {
     glutPostRedisplay();
 }
+
+// PUBLIC
 
 void init_input(passive_motion_func_type f)
 {

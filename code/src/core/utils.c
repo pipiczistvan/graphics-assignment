@@ -57,7 +57,7 @@ double random_double(double a, double b)
     return a + (double)(rand() / RAND_MAX) * (b - a);
 }
 
-double barry_centric(double p1_x, double p1_y,double p1_z,
+double bary_centric(double p1_x, double p1_y,double p1_z,
                     double p2_x, double p2_y,double p2_z,
                     double p3_x, double p3_y,double p3_z,
                     double pos_x, double pos_y)

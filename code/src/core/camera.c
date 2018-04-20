@@ -81,8 +81,10 @@ void set_view_point()
 
 void limit_movement(struct HeightMap* height_map)
 {
+	// terrain
 	camera.position.y = get_terrain_height_on_pos(height_map, camera.position.x, camera.position.z) + HEIGHT;
 
+	// walls
 	double terrainX = (height_map->scale.x - 1) / 2.0 - 1;
 	double terrainZ = (height_map->scale.z - 1) / 2.0 - 1;
 	if (camera.position.x < -terrainX)
@@ -116,14 +118,6 @@ void init_camera()
     camera.pose.z = 0.0;
 }
 
-void update_camera(struct HeightMap* height_map, double delta)
-{
-	set_position(delta);
-	limit_movement(height_map);
-
-	set_view_point();
-}
-
 void rotate_camera(double horizontal, double vertical)
 {
 	camera.pose.y -= horizontal * LOOK_SPEED;
@@ -145,6 +139,15 @@ void rotate_camera(double horizontal, double vertical)
 		camera.pose.x -= 360.0;
 	}
 }
+
+void update_camera(struct HeightMap* height_map, double delta)
+{
+	set_position(delta);
+	limit_movement(height_map);
+
+	set_view_point();
+}
+
 int is_in_camera_range(struct Vector3d *position)
 {
 	double xOffset = camera.position.x - position->x;

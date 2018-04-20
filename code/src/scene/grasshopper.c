@@ -115,7 +115,6 @@ void update_grasshoppers(struct Grasshopper grasshoppers[], int count, struct He
 
                 struct Vector3d terrain_normal;
                 get_height_map_normal_on_pos(terrain, position->z, position->x, &terrain_normal);
-                rotation->x = radian_to_degree(atan(terrain_normal.x));
             }
         }
     }

@@ -6,6 +6,7 @@ struct Texture help_texture;
 
 void draw_help()
 {
+    glDisable(GL_LIGHTING);
     glBindTexture(GL_TEXTURE_2D, help_texture.id);
     glPushMatrix();
     {
@@ -24,6 +25,7 @@ void draw_help()
         glEnd();
     }
     glPopMatrix();
+    glEnable(GL_LIGHTING);
 }
 
 void init_help()

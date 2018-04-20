@@ -92,10 +92,7 @@ void calc_height_map_normals(struct HeightMap* height_map, double unit)
     }
 }
 
-void get_height_map_normal(
-    const struct HeightMap* height_map,
-    int row, int column,
-    struct Vector3d* normal)
+void get_height_map_normal(const struct HeightMap* height_map, int row, int column, struct Vector3d* normal)
 {
     int index;
 
@@ -141,36 +138,43 @@ void get_height_map_normal_on_pos(const struct HeightMap* height_map, GLfloat x,
 
 double get_terrain_height_on_pos(struct HeightMap* height_map, GLfloat x, GLfloat z)
 {
+    // relative position to terrain
     double terrainX = x - height_map->position.x;
     double terrainZ = z - height_map->position.z;
 
+    // size of a grid
     double tileSizeX = height_map->scale.x / height_map->n_rows;
     double tileSizeZ = height_map->scale.z / height_map->n_columns;
 
+    // select grid by position
     int gridX = floor(terrainX / tileSizeX);
     int gridZ = floor(terrainZ / tileSizeZ);
 
+    // check if grid is in terrain
     if (gridX >= height_map->n_rows - 1 || gridZ >= height_map->n_columns - 1 || gridX < 0 || gridZ < 0) {
         return 0.0;
     }
 
+    // relative position to grid
     double xCoord = fmod(terrainX, tileSizeX);
     double zCoord = fmod(terrainZ, tileSizeZ);
 
+    // select in which triangle the coordinates are, then calculate barycentric coordinates
     double terrainHeight;
     if (xCoord <= (1 - zCoord)) {
-        terrainHeight = barry_centric(
+        terrainHeight = bary_centric(
                 0.0, get_height_map_value(height_map, gridZ, gridX), 0.0,
                 1.0, get_height_map_value(height_map, gridZ, gridX + 1), 0.0,
                 0.0, get_height_map_value(height_map, gridZ + 1, gridX), 1.0,
                 xCoord, zCoord);
     } else {
-        terrainHeight = barry_centric(
+        terrainHeight = bary_centric(
                 1.0, get_height_map_value(height_map, gridZ, gridX + 1), 0.0,
                 1.0, get_height_map_value(height_map, gridZ + 1, gridX + 1), 1.0,
                 0.0, get_height_map_value(height_map, gridZ + 1, gridX), 1.0,
                 xCoord, zCoord);
     }
 
+    // transform calculated height by heightmap properties
     return terrainHeight * height_map->scale.y + height_map->position.y;
 }
