@@ -12,7 +12,7 @@ struct Grasshopper
     int direction;
 };
 
-void init_grasshoppers(struct Grasshopper grasshoppers[], int count);
+void create_grasshoppers(struct Grasshopper grasshoppers[], int grasshopper_count, struct Entity *grasses, int grass_count);
 
 void update_grasshoppers(struct Grasshopper grasshoppers[], int count, struct HeightMap *terrain, double delta);
 

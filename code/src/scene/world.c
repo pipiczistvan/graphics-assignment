@@ -111,7 +111,7 @@ void init_world(struct World *world)
     create_light(&(world->light));
     create_fog(&(world->fog));
 
-    init_grasshoppers(world->grasshoppers, GRASSHOPPER_COUNT);
+    create_grasshoppers(world->grasshoppers, GRASSHOPPER_COUNT, world->grasses, GRASS_COUNT);
 }
 
 void update_world(struct World *world, double delta)

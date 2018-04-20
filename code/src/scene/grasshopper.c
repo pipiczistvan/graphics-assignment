@@ -3,6 +3,7 @@
 #include "scene/world.h"
 #include "core/camera.h"
 #include "core/draw.h"
+#include "core/utils.h"
 #include <math.h>
 
 #define JUMP_CHANCE 250
@@ -10,21 +11,27 @@
 #define JUMP_POWER 0.5
 #define SPEED 15.0
 
-void init_grasshoppers(struct Grasshopper grasshoppers[], int count)
+void create_grasshoppers(struct Grasshopper grasshoppers[], int grasshopper_count, struct Entity *grasses, int grass_count)
 {
     struct Entity grasshopperEntity;
     set_entity(&grasshopperEntity, "res/grasshopper.obj", "res/grasshopper.png", &DEFAULT);
 
     int i;
 
-    for (i = 0; i < count; i++)
+    for (i = 0; i < grasshopper_count; i++)
     {
         grasshoppers[i].entity.model = grasshopperEntity.model;
         grasshoppers[i].entity.texture = grasshopperEntity.texture;
 
-        set_entity_position(&(grasshoppers[i].entity), 0.0, 0.0, 0.0);
+        int grass_index = rand() % grass_count;
+        struct Entity grass = grasses[grass_index];
+        set_entity_position(&(grasshoppers[i].entity), grass.position.x, grass.position.y, grass.position.z);
+
         set_entity_rotation(&(grasshoppers[i].entity), 0.0, 0.0, 0.0);
-        set_entity_scale(&(grasshoppers[i].entity), 1.5, 1.5, 1.5);
+
+        double scale = random_double(1.0, 3.0);
+        set_entity_scale(&(grasshoppers[i].entity), scale, scale, scale);
+
         switch (rand() % 3) 
         {
             case 0:

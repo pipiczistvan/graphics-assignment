@@ -54,7 +54,7 @@ double radian_to_degree(double radian)
 
 double random_double(double a, double b)
 {
-    return a + (double)(rand() / RAND_MAX) * (b - a);
+    return a + ((double)rand() / RAND_MAX) * (b - a);
 }
 
 double bary_centric(double p1_x, double p1_y,double p1_z,
