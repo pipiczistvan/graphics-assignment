@@ -19,6 +19,7 @@ struct Material BRONZE;
 struct Material GREEN_RUBBER;
 struct Material GREEN_PLASTIC;
 struct Material OBSIDIAN;
+struct Material SILVER;
 
 void load_material(struct Material *material);
 

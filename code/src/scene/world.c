@@ -112,6 +112,7 @@ void init_world(struct World *world)
     create_fog(&(world->fog));
 
     create_grasshoppers(world->grasshoppers, GRASSHOPPER_COUNT, world->grasses, GRASS_COUNT);
+    create_bees(world->bees, BEE_COUNT);
 }
 
 void update_world(struct World *world, double delta)
@@ -131,6 +132,9 @@ void update_world(struct World *world, double delta)
 
     // grasshoppers
     update_grasshoppers(world->grasshoppers, GRASSHOPPER_COUNT, &(world->terrain), delta);
+
+    // bees
+    update_bees(world->bees, BEE_COUNT, &(world->terrain), delta);
 
     // input
     if (keyboard.F == PRESSED)
@@ -172,4 +176,5 @@ void draw_world(struct World *world)
     draw_entities(world->walls, WALL_COUNT_PER_SIDE * 4);
     draw_entities(world->grasses, GRASS_COUNT);
     draw_grasshoppers(world->grasshoppers, GRASSHOPPER_COUNT);
+    draw_bees(world->bees, BEE_COUNT);
 }

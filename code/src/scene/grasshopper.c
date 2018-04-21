@@ -29,7 +29,7 @@ void create_grasshoppers(struct Grasshopper grasshoppers[], int grasshopper_coun
 
         set_entity_rotation(&(grasshoppers[i].entity), 0.0, 0.0, 0.0);
 
-        double scale = random_double(1.0, 3.0);
+        double scale = random_double(1.0, 1.5);
         set_entity_scale(&(grasshoppers[i].entity), scale, scale, scale);
 
         switch (rand() % 3) 
@@ -50,6 +50,8 @@ void create_grasshoppers(struct Grasshopper grasshoppers[], int grasshopper_coun
 void update_grasshoppers(struct Grasshopper grasshoppers[], int count, struct HeightMap *terrain, double delta)
 {
     int i;
+    double terrainX = (terrain->scale.x - 1) / 2.0 - 1;
+    double terrainZ = (terrain->scale.z - 1) / 2.0 - 1;
 
     for (i = 0; i < count; i++)
     {
@@ -93,8 +95,6 @@ void update_grasshoppers(struct Grasshopper grasshoppers[], int count, struct He
                     break;
             }
 
-            double terrainX = (terrain->scale.x - 1) / 2.0 - 1;
-            double terrainZ = (terrain->scale.z - 1) / 2.0 - 1;
             if (position->x < -terrainX)
             {
                 position->x = -terrainX;

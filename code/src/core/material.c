@@ -57,6 +57,14 @@ struct Material OBSIDIAN =
     { 0.3 }
 };
 
+struct Material SILVER =
+{
+    { 0.19225, 0.19225, 0.19225, 1.0 },
+    { 0.50754, 0.50754, 0.50754, 1.0 },
+    { 0.508273, 0.508273, 0.508273, 1.0 },
+    { 0.4 }
+};
+
 void load_material(struct Material *material)
 {
     glMaterialfv(GL_FRONT, GL_AMBIENT, material->ambient);
