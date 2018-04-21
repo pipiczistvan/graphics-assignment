@@ -13,7 +13,8 @@
 #define GRASS_COUNT 30
 #define WALL_COUNT_PER_SIDE 10
 #define GRASSHOPPER_COUNT 10
-#define BEE_COUNT 10
+#define BEE_COUNT 5
+#define FLOWER_COUNT 10
 
 struct World
 {
@@ -25,6 +26,7 @@ struct World
     struct Entity walls[WALL_COUNT_PER_SIDE * 4];
     struct Grasshopper grasshoppers[GRASSHOPPER_COUNT];
     struct Bee bees[BEE_COUNT];
+    struct Entity flowers[FLOWER_COUNT];
 };
 
 void init_world(struct World *world);

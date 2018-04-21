@@ -86,6 +86,24 @@ void create_grasses(struct HeightMap *terrain, struct Entity *grasses)
     }
 }
 
+void create_flowers(struct HeightMap *terrain, struct Entity *flowers)
+{
+    set_entity(&flowers[0], "res/flower.obj", "res/flower.png", &DEFAULT);
+
+    int i;
+    for (i = 0; i < FLOWER_COUNT; i++)
+    {
+        flowers[i].model = flowers[0].model;
+        flowers[i].texture = flowers[0].texture;
+        flowers[i].material = flowers[0].material;
+
+        int x = rand() % TERRAIN_SCALE_X + -TERRAIN_SCALE_X / 2;
+        int z = rand() % TERRAIN_SCALE_X + -TERRAIN_SCALE_X / 2;
+        set_entity_position(&flowers[i], x, get_terrain_height_on_pos(terrain, x, z), z);
+        set_entity_scale(&flowers[i], 1.0, 1.0, 1.0);
+    }
+}
+
 void create_fog(struct Fog *fog)
 {
     fog->density = 0.0;
@@ -108,6 +126,7 @@ void init_world(struct World *world)
 
     create_walls(world->walls);
     create_grasses(&(world->terrain), world->grasses);
+    create_flowers(&(world->terrain), world->flowers);
     create_light(&(world->light));
     create_fog(&(world->fog));
 
@@ -177,4 +196,5 @@ void draw_world(struct World *world)
     draw_entities(world->grasses, GRASS_COUNT);
     draw_grasshoppers(world->grasshoppers, GRASSHOPPER_COUNT);
     draw_bees(world->bees, BEE_COUNT);
+    draw_entities(world->flowers, FLOWER_COUNT);
 }
