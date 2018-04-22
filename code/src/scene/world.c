@@ -8,7 +8,7 @@
 
 int l_pressed = FALSE;
 int f_pressed = FALSE;
-double light_ambient = 0.3;
+double light_ambient = 1.0;
 double delta_density = -0.05;
 
 // PRIVATE
@@ -153,7 +153,7 @@ void update_world(struct World *world, double delta)
     update_grasshoppers(world->grasshoppers, GRASSHOPPER_COUNT, &(world->terrain), delta);
 
     // bees
-    update_bees(world->bees, BEE_COUNT, &(world->terrain), delta);
+    update_bees(world->bees, BEE_COUNT, world->flowers, FLOWER_COUNT, &(world->terrain), delta);
 
     // input
     if (keyboard.F == PRESSED)

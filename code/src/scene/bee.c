@@ -9,6 +9,78 @@
 #define FLOATING_SPEED 50
 #define FLYING_SPEED 5
 #define TERRAIN_OFFSET 2
+#define FLOWER_RANGE 5
+#define LANDING_SPEED 5
+#define EATING_LIMIT 5
+
+// PRIVATE
+
+void apply_changes_to_wings(struct Bee *bee)
+{
+    set_entity_position(&(bee->left_wing), bee->body.position.x, bee->body.position.y, bee->body.position.z);
+    set_entity_position(&(bee->right_wing), bee->body.position.x, bee->body.position.y, bee->body.position.z);
+    bee->left_wing.rotation.y = bee->body.rotation.y;
+    bee->right_wing.rotation.y = bee->body.rotation.y;
+}
+
+void flap_wings(struct Bee *bee, double delta, double speed)
+{
+    bee->wing_progression += delta * speed;
+    bee->left_wing.rotation.z = 45.0 + cos(degree_to_radian(bee->wing_progression)) * 22.5;
+    bee->right_wing.rotation.z = -bee->left_wing.rotation.z;
+}
+
+int fly_to_target_position(struct Bee *bee, struct HeightMap *terrain, double delta)
+{
+    struct Vector3d *bee_position = &(bee->body.position);
+    struct Vector3d *bee_rotation = &(bee->body.rotation);
+
+    double d_x = bee->target_position.x - bee_position->x;
+    double d_z = bee->target_position.z - bee_position->z;
+
+    // is near target position
+    if (abs(d_x) < 0.5 && abs(d_z) < 0.5)
+    {
+        return TRUE;
+    } else 
+    {
+        // rotate to target
+        bee_rotation->y = radian_to_degree(atan2(d_x, d_z));
+
+        // move to target
+        bee_position->x += sin(degree_to_radian(bee_rotation->y)) * FLYING_SPEED * delta;
+        bee_position->z += cos(degree_to_radian(bee_rotation->y)) * FLYING_SPEED * delta;
+
+        // floating
+        bee->floating_progression += delta * FLOATING_SPEED;
+        double terrain_height = get_terrain_height_on_pos(terrain, bee->body.position.x, bee->body.position.z);
+        bee_position->y = terrain_height + cos(degree_to_radian(bee->floating_progression)) + 1 + TERRAIN_OFFSET;
+
+        apply_changes_to_wings(bee);
+
+        return FALSE;
+    }
+}
+
+struct Entity *get_flower_in_range(struct Bee *bee, struct Entity flowers[], int flower_count)
+{
+    int i;
+
+    for (i = 0; i < flower_count; i++)
+    {
+        if (bee->body.position.x - FLOWER_RANGE <= flowers[i].position.x &&
+            bee->body.position.x + FLOWER_RANGE >= flowers[i].position.x &&
+            bee->body.position.z - FLOWER_RANGE <= flowers[i].position.z &&
+            bee->body.position.z + FLOWER_RANGE >= flowers[i].position.z)
+        {
+            return &(flowers[i]);
+        }
+    }
+
+    return NULL;
+}
+
+// PUBLIC
 
 void create_bees(struct Bee bees[], int count)
 {
@@ -23,9 +95,10 @@ void create_bees(struct Bee bees[], int count)
         int x = rand() % TERRAIN_SCALE_X + -TERRAIN_SCALE_X / 2;
         int z = rand() % TERRAIN_SCALE_X + -TERRAIN_SCALE_X / 2;
 
-        double scale = random_double(1.0, 1.5);
-        bees[i].flying_progression = 0;
+        double scale = random_double(0.75, 1.25);
+        bees[i].floating_progression = 0;
         bees[i].wing_progression = 0;
+        bees[i].eating_progression = 0;
 
         // body
         bees[i].body.model = bee_body.model;
@@ -50,62 +123,83 @@ void create_bees(struct Bee bees[], int count)
         set_entity_rotation(&(bees[i].right_wing), 0.0, 0.0, 0.0);
         set_entity_scale(&(bees[i].right_wing), scale, scale, scale);
         bees[i].right_wing.material = SILVER;
+
+        // target
+        bees[i].target_position.x = rand() % TERRAIN_SCALE_X + -TERRAIN_SCALE_X / 2;
+        bees[i].target_position.z = rand() % TERRAIN_SCALE_X + -TERRAIN_SCALE_X / 2;
+        bees[i].target_flower = NULL;
     }
 }
 
-void update_bees(struct Bee bees[], int count, struct HeightMap *terrain, double delta)
+void update_bees(struct Bee bees[], int bee_count, struct Entity flowers[], int flower_count, struct HeightMap *terrain, double delta)
 {
     int i;
-    double terrainX = (terrain->scale.x - 1) / 2.0 - 1;
-    double terrainZ = (terrain->scale.z - 1) / 2.0 - 1;
 
-    for (i = 0; i < count; i++)
+    for (i = 0; i < bee_count; i++)
     {
-        struct Vector3d *position = &(bees[i].body.position);
-        struct Vector3d *rotation = &(bees[i].body.rotation);
+        int reached_target = fly_to_target_position(&(bees[i]), terrain, delta);
 
-        // wings
-        bees[i].wing_progression += delta * WING_SPEED;
-        bees[i].left_wing.rotation.z = 45.0 + cos(degree_to_radian(bees[i].wing_progression)) * 22.5;
-        bees[i].right_wing.rotation.z = -bees[i].left_wing.rotation.z;
+        struct Entity *closest_flower = get_flower_in_range(&(bees[i]), flowers, flower_count);
+        // find a different target flower
+        if (closest_flower != NULL && bees[i].target_flower != closest_flower)
+        {
+            bees[i].target_flower = closest_flower;
+            bees[i].target_position = bees[i].target_flower->position;
+            bees[i].eating_progression = 0;
+        }
 
-        // rotation
-        rotation->y += random_double(-180.0, 180.0) * delta;
-
-        // movement
-        if (position->x < -terrainX)
+        if (reached_target == TRUE)
         {
-            position->x = -terrainX;
-            rotation->y += 90;
-        }
-        if (position->x > terrainX)
+            if (bees[i].target_flower == NULL)
+            {
+                // find new random target
+                bees[i].target_position.x = rand() % TERRAIN_SCALE_X + -TERRAIN_SCALE_X / 2;
+                bees[i].target_position.z = rand() % TERRAIN_SCALE_X + -TERRAIN_SCALE_X / 2;
+                flap_wings(&(bees[i]), delta, WING_SPEED);
+            } else
+            {
+                double terrain_height = get_terrain_height_on_pos(terrain, bees[i].body.position.x, bees[i].body.position.z);
+                // bee is in target flower position
+                if (bees[i].eating_progression == 0)
+                {
+                    // begin landing sequence
+                    if (bees[i].body.position.y > terrain_height + 0.5)
+                    {
+                        bees[i].body.position.y -= delta * LANDING_SPEED;
+                    } else
+                    {
+                        bees[i].body.position.y = terrain_height + 0.5;
+                        bees[i].eating_progression += delta;
+                    }
+                    flap_wings(&(bees[i]), delta, WING_SPEED);
+                } else
+                {
+                    if (bees[i].eating_progression >= EATING_LIMIT)
+                    {
+                        // begin ascending sequence
+                        if (bees[i].body.position.y < terrain_height + cos(degree_to_radian(bees[i].floating_progression)) + 1 + TERRAIN_OFFSET)
+                        {
+                            bees[i].body.position.y += delta * LANDING_SPEED;
+                        } else
+                        {
+                            // find new random target
+                            bees[i].target_position.x = rand() % TERRAIN_SCALE_X + -TERRAIN_SCALE_X / 2;
+                            bees[i].target_position.z = rand() % TERRAIN_SCALE_X + -TERRAIN_SCALE_X / 2;
+                        }
+                        flap_wings(&(bees[i]), delta, WING_SPEED);
+                    } else
+                    {
+                        bees[i].eating_progression += delta;
+                        flap_wings(&(bees[i]), delta, WING_SPEED / 100);
+                    }
+                }
+                
+                apply_changes_to_wings(&(bees[i]));
+            }
+        } else 
         {
-            position->x = terrainX;
-            rotation->y += 90;
+            flap_wings(&(bees[i]), delta, WING_SPEED);
         }
-        if (position->z < -terrainZ)
-        {
-            position->z = -terrainZ;
-            rotation->y += 90;
-        }
-        if (position->z > terrainZ)
-        {
-            position->z = terrainZ;
-            rotation->y += 90;
-        }
-        position->x += sin(degree_to_radian(rotation->y)) * FLYING_SPEED * delta;
-        position->z += cos(degree_to_radian(rotation->y)) * FLYING_SPEED * delta;
-        
-        // floating
-        bees[i].flying_progression += delta * FLOATING_SPEED;
-        double terrain_height = get_terrain_height_on_pos(terrain, bees[i].body.position.x, bees[i].body.position.z);
-        position->y = terrain_height + cos(degree_to_radian(bees[i].flying_progression)) + 1 + TERRAIN_OFFSET;
-
-        // apply changes to wings
-        set_entity_position(&(bees[i].left_wing), position->x, position->y, position->z);
-        set_entity_position(&(bees[i].right_wing), position->x, position->y, position->z);
-        bees[i].left_wing.rotation.y = rotation->y;
-        bees[i].right_wing.rotation.y = rotation->y;
     }
 }
 
