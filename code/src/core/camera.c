@@ -14,7 +14,7 @@ struct Camera camera;
 
 // PRIVATE
 
-void move_camera_forward(double distance)
+void move_camera_forward(const double distance)
 {
 	double angle = degree_to_radian(camera.pose.y);
 
@@ -22,7 +22,7 @@ void move_camera_forward(double distance)
 	camera.position.x -= sin(angle) * distance;
 }
 
-void move_camera_backward(double distance)
+void move_camera_backward(const double distance)
 {
 	double angle = degree_to_radian(camera.pose.y);
 
@@ -30,7 +30,7 @@ void move_camera_backward(double distance)
 	camera.position.x += sin(angle) * distance;
 }
 
-void step_camera_left(double distance)
+void step_camera_left(const double distance)
 {
 	double angle = degree_to_radian(camera.pose.y + 90.0);
 
@@ -38,7 +38,7 @@ void step_camera_left(double distance)
 	camera.position.x -= sin(angle) * distance;
 }
 
-void step_camera_right(double distance)
+void step_camera_right(const double distance)
 {
 	double angle = degree_to_radian(camera.pose.y - 90.0);
 
@@ -46,7 +46,7 @@ void step_camera_right(double distance)
 	camera.position.x -= sin(angle) * distance;
 }
 
-void set_position(double delta)
+void set_position(const double delta)
 {
     double distance;
 
@@ -79,7 +79,7 @@ void set_view_point()
 	glTranslatef(-camera.position.x, -camera.position.y, -camera.position.z);
 }
 
-void limit_movement(struct HeightMap* height_map)
+void limit_movement(const struct HeightMap* height_map)
 {
 	// terrain
 	camera.position.y = get_terrain_height_on_pos(height_map, camera.position.x, camera.position.z) + HEIGHT;
@@ -118,7 +118,7 @@ void init_camera()
     camera.pose.z = 0.0;
 }
 
-void rotate_camera(double horizontal, double vertical)
+void rotate_camera(const double horizontal, const double vertical)
 {
 	camera.pose.y -= horizontal * LOOK_SPEED;
 	camera.pose.x -= vertical * LOOK_SPEED;
@@ -140,7 +140,7 @@ void rotate_camera(double horizontal, double vertical)
 	}
 }
 
-void update_camera(struct HeightMap* height_map, double delta)
+void update_camera(const struct HeightMap* height_map, const double delta)
 {
 	set_position(delta);
 	limit_movement(height_map);
@@ -148,7 +148,7 @@ void update_camera(struct HeightMap* height_map, double delta)
 	set_view_point();
 }
 
-int is_in_camera_range(struct Vector3d *position)
+int is_in_camera_range(const struct Vector3d *position)
 {
 	double xOffset = camera.position.x - position->x;
 	double zOffset = camera.position.z - position->z;
@@ -168,7 +168,7 @@ int is_in_camera_range(struct Vector3d *position)
 		0 - +direction
 		1 - -direction
 */
-int position_relative_to_camera(struct Vector3d *position)
+int position_relative_to_camera(const struct Vector3d *position)
 {
 	double xOffset = camera.position.x - position->x;
 	double zOffset = camera.position.z - position->z;

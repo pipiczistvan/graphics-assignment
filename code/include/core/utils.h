@@ -28,18 +28,24 @@ void normalize_vector(struct Vector3d* vector);
 /**
  * Calculates radian from degree.
  */
-double degree_to_radian(double degree);
+double degree_to_radian(const double degree);
 
 /**
  * Generate random double value on [a, b) interval.
  */
-double random_double(double a, double b);
+double random_double(const double a, const double b);
 
-double radian_to_degree(double radian);
+/**
+ * Calculates degree from radian.
+ */
+double radian_to_degree(const double radian);
 
-double bary_centric(double p1_x, double p1_y,double p1_z,
-                    double p2_x, double p2_y,double p2_z,
-                    double p3_x, double p3_y,double p3_z,
-                    double pos_x, double pos_y);
+/**
+ * Calculates bary centric value.
+ */
+double bary_centric(const double p1_x, const double p1_y, const double p1_z,
+                    const double p2_x, const double p2_y, const double p2_z,
+                    const double p3_x, const double p3_y, const double p3_z,
+                    const double pos_x, const double pos_y);
 
 #endif /* UTILS_H */

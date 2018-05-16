@@ -11,14 +11,29 @@ struct Light
     GLfloat specular[4];
 };
 
-void load_light(struct Light *light, GLuint light_target);
+/**
+ * Load a light.
+ */
+void load_light(struct Light *light, const GLuint light_target);
 
-void set_light_position(struct Light *light, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
+/**
+ * Set light position.
+ */
+void set_light_position(struct Light *light, const GLfloat x, const GLfloat y, const GLfloat z, const GLfloat w);
 
-void set_light_ambient(struct Light *light, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
+/**
+ * Set light ambient value.
+ */
+void set_light_ambient(struct Light *light, const GLfloat x, const GLfloat y, const GLfloat z, const GLfloat w);
 
-void set_light_diffuse(struct Light *light, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
+/**
+ * Set light diffuse value.
+ */
+void set_light_diffuse(struct Light *light, const GLfloat x, const GLfloat y, const GLfloat z, const GLfloat w);
 
-void set_light_specular(struct Light *light, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
+/**
+ * Set light specular value.
+ */
+void set_light_specular(struct Light *light, const GLfloat x, const GLfloat y, const GLfloat z, const GLfloat w);
 
 #endif // LIGHT_H

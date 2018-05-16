@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <obj/draw.h>
 
-void draw_height_map_entity(struct HeightMap* height_map)
+void draw_height_map_entity(const struct HeightMap* height_map)
 {
     glPushMatrix();
     {
@@ -19,7 +19,7 @@ void draw_height_map_entity(struct HeightMap* height_map)
     glPopMatrix();
 }
 
-void draw_height_map(struct HeightMap* height_map)
+void draw_height_map(const struct HeightMap* height_map)
 {
     int i, j, k;
     int row;
@@ -48,7 +48,7 @@ void draw_height_map(struct HeightMap* height_map)
     }
 }
 
-void draw_entities(struct Entity *entities, int entity_count)
+void draw_entities(const struct Entity *entities, const int entity_count)
 {
     int i;
     for (i = 0; i < entity_count; i++)
@@ -57,7 +57,7 @@ void draw_entities(struct Entity *entities, int entity_count)
     }
 }
 
-void draw_entity(struct Entity *entity)
+void draw_entity(const struct Entity *entity)
 {
     glPushMatrix();
     {

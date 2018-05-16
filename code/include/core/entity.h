@@ -18,12 +18,24 @@ struct Entity
     struct Material material;
 };
 
+/**
+ * Initialize the entity.
+ */
 void set_entity(struct Entity *entity, const char* model, const char* texture, struct Material *material);
 
-void set_entity_position(struct Entity *entity, GLfloat x, GLfloat y, GLfloat z);
+/**
+ * Move the entity to the given position.
+ */
+void move_entity(struct Entity *entity, GLfloat x, GLfloat y, GLfloat z);
 
-void set_entity_rotation(struct Entity *entity, GLfloat x, GLfloat y, GLfloat z);
+/**
+ * Rotate the entity by the given angles.
+ */
+void rotate_entity(struct Entity *entity, GLfloat x, GLfloat y, GLfloat z);
 
-void set_entity_scale(struct Entity *entity, GLfloat x, GLfloat y, GLfloat z);
+/**
+ * Scale the entity.
+ */
+void scale_entity(struct Entity *entity, GLfloat x, GLfloat y, GLfloat z);
 
 #endif // ENTITY_H

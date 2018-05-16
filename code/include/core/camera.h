@@ -10,14 +10,29 @@ struct Camera
 	struct Vector3d pose;
 };
 
+/**
+ * Initialize the camera.
+ */
 void init_camera();
 
-void rotate_camera(double horizontal, double vertical);
+/**
+ * Rotate the camera.
+ */
+void rotate_camera(const double horizontal, const double vertical);
 
-void update_camera(struct HeightMap* height_map, double delta);
+/**
+ * Update the camera.
+ */
+void update_camera(const struct HeightMap* height_map, const double delta);
 
-int is_in_camera_range(struct Vector3d *position);
+/**
+ * Returns true if point is in camera range.
+ */
+int is_in_camera_range(const struct Vector3d *position);
 
-int position_relative_to_camera(struct Vector3d *position);
+/**
+ * Returns the position index relative to the camera.
+ */
+int position_relative_to_camera(const struct Vector3d *position);
 
 #endif // CAMERA_H

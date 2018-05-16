@@ -24,8 +24,8 @@ void set_height_map(struct HeightMap* height_map, const char* filename, const ch
     calc_height_map_heights(height_map, image);
     calc_height_map_normals(height_map, unit);
 
-    set_height_map_position(height_map, 0.0, 0.0, 0.0);
-    set_height_map_scale(height_map, 1.0, 1.0, 1.0);
+    move_height_map(height_map, 0.0, 0.0, 0.0);
+    scale_height_map(height_map, 1.0, 1.0, 1.0);
     load_texture(texture, &(height_map->texture));
     height_map->material = *material;
 
@@ -108,14 +108,14 @@ void free_height_map(struct HeightMap* height_map)
     // TODO: Free the allocated memory!
 }
 
-void set_height_map_position(struct HeightMap* height_map, GLfloat x, GLfloat y, GLfloat z)
+void move_height_map(struct HeightMap* height_map, GLfloat x, GLfloat y, GLfloat z)
 {
     height_map->position.x = x;
     height_map->position.y = y;
     height_map->position.z = z;
 }
 
-void set_height_map_scale(struct HeightMap* height_map, GLfloat x, GLfloat y, GLfloat z)
+void scale_height_map(struct HeightMap* height_map, GLfloat x, GLfloat y, GLfloat z)
 {
     height_map->scale.x = x;
     height_map->scale.y = y;
@@ -136,7 +136,7 @@ void get_height_map_normal_on_pos(const struct HeightMap* height_map, GLfloat x,
     get_height_map_normal(height_map, gridX, gridZ, normal);
 }
 
-double get_terrain_height_on_pos(struct HeightMap* height_map, GLfloat x, GLfloat z)
+double get_terrain_height_on_pos(const struct HeightMap* height_map, GLfloat x, GLfloat z)
 {
     // relative position to terrain
     double terrainX = x - height_map->position.x;

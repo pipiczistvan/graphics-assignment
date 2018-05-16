@@ -25,7 +25,7 @@ void create_light(struct Light *light)
 
 void create_walls(struct Entity *walls)
 {
-    set_entity(&walls[0], "res/wall.obj", "res/wall.png", &DEFAULT);
+    set_entity(&walls[0], "resources/models/wall.obj", "resources/textures/wall.png", &DEFAULT);
 
     int i, j;
     for (i = 0; i < 4; i++)
@@ -61,16 +61,16 @@ void create_walls(struct Entity *walls)
                     rot = 90;
                     break;
             }
-            set_entity_position(&walls[index], x, 0.0, z);
-            set_entity_scale(&walls[index], WALL_SCALE, WALL_SCALE, WALL_SCALE);
-            set_entity_rotation(&walls[index], 0.0, rot, 0.0);
+            move_entity(&walls[index], x, 0.0, z);
+            scale_entity(&walls[index], WALL_SCALE, WALL_SCALE, WALL_SCALE);
+            rotate_entity(&walls[index], 0.0, rot, 0.0);
         }
     }
 }
 
 void create_grasses(struct HeightMap *terrain, struct Entity *grasses)
 {
-    set_entity(&grasses[0], "res/grass.obj", "res/grass.png", &GREEN_RUBBER);
+    set_entity(&grasses[0], "resources/models/grass.obj", "resources/textures/grass.png", &GREEN_RUBBER);
 
     int i;
     for (i = 0; i < GRASS_COUNT; i++)
@@ -81,14 +81,14 @@ void create_grasses(struct HeightMap *terrain, struct Entity *grasses)
 
         int x = rand() % TERRAIN_SCALE_X + -TERRAIN_SCALE_X / 2;
         int z = rand() % TERRAIN_SCALE_X + -TERRAIN_SCALE_X / 2;
-        set_entity_position(&grasses[i], x, get_terrain_height_on_pos(terrain, x, z), z);
-        set_entity_scale(&grasses[i], 2.0, 2.0, 2.0);
+        move_entity(&grasses[i], x, get_terrain_height_on_pos(terrain, x, z), z);
+        scale_entity(&grasses[i], 2.0, 2.0, 2.0);
     }
 }
 
-void create_flowers(struct HeightMap *terrain, struct Entity *flowers)
+void create_flowers(const struct HeightMap *terrain, struct Entity *flowers)
 {
-    set_entity(&flowers[0], "res/flower.obj", "res/flower.png", &DEFAULT);
+    set_entity(&flowers[0], "resources/models/flower.obj", "resources/textures/flower.png", &DEFAULT);
 
     int i;
     for (i = 0; i < FLOWER_COUNT; i++)
@@ -99,8 +99,8 @@ void create_flowers(struct HeightMap *terrain, struct Entity *flowers)
 
         int x = rand() % TERRAIN_SCALE_X + -TERRAIN_SCALE_X / 2;
         int z = rand() % TERRAIN_SCALE_X + -TERRAIN_SCALE_X / 2;
-        set_entity_position(&flowers[i], x, get_terrain_height_on_pos(terrain, x, z), z);
-        set_entity_scale(&flowers[i], 1.0, 1.0, 1.0);
+        move_entity(&flowers[i], x, get_terrain_height_on_pos(terrain, x, z), z);
+        scale_entity(&flowers[i], 1.0, 1.0, 1.0);
     }
 }
 
@@ -117,12 +117,12 @@ void create_fog(struct Fog *fog)
 
 void init_world(struct World *world)
 {
-    set_height_map(&(world->terrain), "res/heightmap2.png", "res/soil_ground.png", TERRAIN_SCALE_Y / TERRAIN_SCALE_X, &DEFAULT);
-    set_height_map_scale(&(world->terrain), TERRAIN_SCALE_X, TERRAIN_SCALE_Y, TERRAIN_SCALE_X);
-    set_height_map_position(&(world->terrain), -TERRAIN_SCALE_X / 2, 0.0, -TERRAIN_SCALE_X / 2);
+    set_height_map(&(world->terrain), "resources/textures/heightmap2.png", "resources/textures/soil_ground.png", TERRAIN_SCALE_Y / TERRAIN_SCALE_X, &DEFAULT);
+    scale_height_map(&(world->terrain), TERRAIN_SCALE_X, TERRAIN_SCALE_Y, TERRAIN_SCALE_X);
+    move_height_map(&(world->terrain), -TERRAIN_SCALE_X / 2, 0.0, -TERRAIN_SCALE_X / 2);
 
-    set_entity(&(world->skybox), "res/skybox.obj", "res/skybox.png", &DEFAULT);
-    set_entity_scale(&(world->skybox), 500.0, 500.0, 500.0);
+    set_entity(&(world->skybox), "resources/models/skybox.obj", "resources/textures/skybox.png", &DEFAULT);
+    scale_entity(&(world->skybox), 500.0, 500.0, 500.0);
 
     create_walls(world->walls);
     create_grasses(&(world->terrain), world->grasses);
@@ -185,7 +185,7 @@ void update_world(struct World *world, double delta)
     }
 }
 
-void draw_world(struct World *world)
+void draw_world(const struct World *world)
 {
     glEnable(GL_FOG);
     draw_fog(&(world->fog));

@@ -42,25 +42,25 @@ void normalize_vector(struct Vector3d* vector)
     }
 }
 
-double degree_to_radian(double degree)
+double degree_to_radian(const double degree)
 {
 	return degree * M_PI / 180.0;
 }
 
-double radian_to_degree(double radian)
+double radian_to_degree(const double radian)
 {
     return radian / M_PI * 180.0;
 }
 
-double random_double(double a, double b)
+double random_double(const double a, const double b)
 {
     return a + ((double)rand() / RAND_MAX) * (b - a);
 }
 
-double bary_centric(double p1_x, double p1_y,double p1_z,
-                    double p2_x, double p2_y,double p2_z,
-                    double p3_x, double p3_y,double p3_z,
-                    double pos_x, double pos_y)
+double bary_centric(const double p1_x, const double p1_y, const double p1_z,
+                    const double p2_x, const double p2_y, const double p2_z,
+                    const double p3_x, const double p3_y, const double p3_z,
+                    const double pos_x, const double pos_y)
 {
     double det = (p2_z - p3_z) * (p1_x - p3_x) + (p3_x - p2_x) * (p1_z - p3_z);
     double l1 = ((p2_z - p3_z) * (pos_x - p3_x) + (p3_x - p2_x) * (pos_y - p3_z)) / det;

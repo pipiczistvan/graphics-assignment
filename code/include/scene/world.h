@@ -29,10 +29,19 @@ struct World
     struct Entity flowers[FLOWER_COUNT];
 };
 
+/**
+ * Initialize world.
+ */
 void init_world(struct World *world);
 
+/**
+ * Update world.
+ */
 void update_world(struct World *world, double delta);
 
-void draw_world(struct World *world);
+/**
+ * Draw world.
+ */
+void draw_world(const struct World *world);
 
 #endif // WORLD_H

@@ -6,17 +6,29 @@
 #include "core/entity.h"
 #include "core/fog.h"
 
-void draw_height_map_entity(struct HeightMap* height_map);
+/**
+ * Draw height map as entity.
+ */
+void draw_height_map_entity(const struct HeightMap* height_map);
 
 /**
  * Draw height map.
  */
-void draw_height_map(struct HeightMap* height_map);
+void draw_height_map(const struct HeightMap* height_map);
 
-void draw_entity(struct Entity *entity);
+/**
+ * Draw entity.
+ */
+void draw_entity(const struct Entity *entity);
 
-void draw_entities(struct Entity *entities, int entity_count);
+/**
+ * Draw multiple entities.
+ */
+void draw_entities(const struct Entity *entities, const int entity_count);
 
+/**
+ * Draw fog.
+ */
 void draw_fog(const struct Fog *fog);
 
 #endif // DRAW_H

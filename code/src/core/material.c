@@ -65,7 +65,7 @@ struct Material SILVER =
     { 0.4 }
 };
 
-void load_material(struct Material *material)
+void load_material(const struct Material *material)
 {
     glMaterialfv(GL_FRONT, GL_AMBIENT, material->ambient);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, material->diffuse);
@@ -73,7 +73,7 @@ void load_material(struct Material *material)
     glMaterialfv(GL_FRONT, GL_SHININESS, material->shininess);
 }
 
-void set_material_attribute(GLfloat attribute[], GLfloat x, GLfloat y, GLfloat z, GLfloat w)
+void set_material_attribute(GLfloat attribute[], const GLfloat x, const GLfloat y, const GLfloat z, const GLfloat w)
 {
     attribute[0] = x;
     attribute[1] = y;
@@ -81,22 +81,22 @@ void set_material_attribute(GLfloat attribute[], GLfloat x, GLfloat y, GLfloat z
     attribute[3] = w;
 }
 
-void set_material_ambient(struct Material *material, GLfloat x, GLfloat y, GLfloat z, GLfloat w)
+void set_material_ambient(struct Material *material, const GLfloat x, const GLfloat y, const GLfloat z, const GLfloat w)
 {
     set_material_attribute(material->ambient, x, y, z, w);
 }
 
-void set_material_diffuse(struct Material *material, GLfloat x, GLfloat y, GLfloat z, GLfloat w)
+void set_material_diffuse(struct Material *material, const GLfloat x, const GLfloat y, const GLfloat z, const GLfloat w)
 {
     set_material_attribute(material->diffuse, x, y, z, w);
 }
 
-void set_material_specular(struct Material *material, GLfloat x, GLfloat y, GLfloat z, GLfloat w)
+void set_material_specular(struct Material *material, const GLfloat x, const GLfloat y, const GLfloat z, const GLfloat w)
 {
     set_material_attribute(material->specular, x, y, z, w);
 }
 
-void set_material_shininess(struct Material *material, GLfloat x)
+void set_material_shininess(struct Material *material, const GLfloat x)
 {
     material->shininess[0] = x;
 }

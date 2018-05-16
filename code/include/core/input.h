@@ -27,6 +27,9 @@ struct Mouse mouse;
 
 typedef void (*passive_motion_func_type)(int, int);
 
+/**
+ * Set up the input.
+ */
 void init_input(passive_motion_func_type);
 
 #endif // INPUT_H

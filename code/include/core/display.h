@@ -4,10 +4,19 @@
 #define PERSPECTIVE 0
 #define ORTHO 1
 
-void init_display(int width, int height, char* title);
+/**
+ * Initialize display.
+ */
+void init_display(const int width, const int height, const char* title);
 
+/**
+ * Close the display, and free memory.
+ */
 void close_display();
 
-void set_display_mode(int mode);
+/**
+ * Set the display mode. (PERSPECTIVE, ORTHO)
+ */
+void set_display_mode(const int mode);
 
 #endif // DISPLAY_H

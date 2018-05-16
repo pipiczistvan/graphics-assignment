@@ -16,10 +16,19 @@ struct Bee
     double eating_progression;
 };
 
-void create_bees(struct Bee bees[], int count);
+/**
+ * Create bees.
+ */
+void create_bees(struct Bee bees[], const int count);
 
-void update_bees(struct Bee bees[], int bee_count, struct Entity flowers[], int flower_count, struct HeightMap *terrain, double delta);
+/**
+ * Update bees.
+ */
+void update_bees(struct Bee bees[], int bee_count, struct Entity flowers[], const int flower_count, const struct HeightMap *terrain, const double delta);
 
-void draw_bees(struct Bee bees[], int count);
+/**
+ * Draw bees.
+ */
+void draw_bees(const struct Bee bees[], const int count);
 
 #endif // BEE_H

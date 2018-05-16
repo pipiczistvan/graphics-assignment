@@ -30,5 +30,5 @@ void draw_help()
 
 void init_help()
 {
-    load_texture("res/help.png", &help_texture);
+    load_texture("resources/textures/help.png", &help_texture);
 }

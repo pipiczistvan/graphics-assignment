@@ -21,14 +21,29 @@ struct Material GREEN_PLASTIC;
 struct Material OBSIDIAN;
 struct Material SILVER;
 
-void load_material(struct Material *material);
+/**
+ * Load a material.
+ */
+void load_material(const struct Material *material);
 
-void set_material_ambient(struct Material *material, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
+/**
+ * Set material ambient value.
+ */
+void set_material_ambient(struct Material *material, const GLfloat x, const GLfloat y, const GLfloat z, const GLfloat w);
 
-void set_material_diffuse(struct Material *material, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
+/**
+ * Set material diffuse value.
+ */
+void set_material_diffuse(struct Material *material, const GLfloat x, const GLfloat y, const GLfloat z, const GLfloat w);
 
-void set_material_specular(struct Material *material, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
+/**
+ * Set material specular value.
+ */
+void set_material_specular(struct Material *material, const GLfloat x, const GLfloat y, const GLfloat z, const GLfloat w);
 
-void set_material_shininess(struct Material *material, GLfloat x);
+/**
+ * Set material shininess value.
+ */
+void set_material_shininess(struct Material *material, const GLfloat x);
 
 #endif // MATERIAL_H

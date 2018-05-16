@@ -11,10 +11,10 @@
 #define JUMP_POWER 0.5
 #define SPEED 15.0
 
-void create_grasshoppers(struct Grasshopper grasshoppers[], int grasshopper_count, struct Entity *grasses, int grass_count)
+void create_grasshoppers(struct Grasshopper grasshoppers[], const int grasshopper_count, const struct Entity *grasses, const int grass_count)
 {
     struct Entity grasshopperEntity;
-    set_entity(&grasshopperEntity, "res/grasshopper.obj", "res/grasshopper.png", &DEFAULT);
+    set_entity(&grasshopperEntity, "resources/models/grasshopper.obj", "resources/textures/grasshopper.png", &DEFAULT);
 
     int i;
 
@@ -25,12 +25,12 @@ void create_grasshoppers(struct Grasshopper grasshoppers[], int grasshopper_coun
 
         int grass_index = rand() % grass_count;
         struct Entity grass = grasses[grass_index];
-        set_entity_position(&(grasshoppers[i].entity), grass.position.x, grass.position.y, grass.position.z);
+        move_entity(&(grasshoppers[i].entity), grass.position.x, grass.position.y, grass.position.z);
 
-        set_entity_rotation(&(grasshoppers[i].entity), 0.0, 0.0, 0.0);
+        rotate_entity(&(grasshoppers[i].entity), 0.0, 0.0, 0.0);
 
         double scale = random_double(1.0, 1.5);
-        set_entity_scale(&(grasshoppers[i].entity), scale, scale, scale);
+        scale_entity(&(grasshoppers[i].entity), scale, scale, scale);
 
         switch (rand() % 3) 
         {
@@ -47,7 +47,7 @@ void create_grasshoppers(struct Grasshopper grasshoppers[], int grasshopper_coun
     }
 }
 
-void update_grasshoppers(struct Grasshopper grasshoppers[], int count, struct HeightMap *terrain, double delta)
+void update_grasshoppers(struct Grasshopper grasshoppers[], const int count, const struct HeightMap *terrain, const double delta)
 {
     int i;
     double terrainX = (terrain->scale.x - 1) / 2.0 - 1;
@@ -127,7 +127,7 @@ void update_grasshoppers(struct Grasshopper grasshoppers[], int count, struct He
     }
 }
 
-void draw_grasshoppers(struct Grasshopper grasshoppers[], int count)
+void draw_grasshoppers(const struct Grasshopper grasshoppers[], const int count)
 {
     int i;
 

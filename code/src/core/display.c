@@ -26,7 +26,7 @@ void redisplay()
     }
 }
 
-void reshape(GLsizei w, GLsizei h)
+void reshape(const GLsizei w, const GLsizei h)
 {
     width = w;
     height = h;
@@ -44,7 +44,7 @@ void initialize()
     glClearDepth(1.0);
 }
 
-int create_window(int width, int height, char* title)
+int create_window(const int width, const int height, const char* title)
 {
     glutInitWindowSize(width, height);     
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
@@ -57,7 +57,7 @@ int create_window(int width, int height, char* title)
 
 // PUBLIC
 
-void init_display(int width, int height, char* title)
+void init_display(const int width, const int height, const char* title)
 {
     window = create_window(width, height, title);
 
@@ -71,7 +71,7 @@ void close_display()
     glutDestroyWindow(window);
 }
 
-void set_display_mode(int mode)
+void set_display_mode(const int mode)
 {
     projection = mode;
     redisplay();

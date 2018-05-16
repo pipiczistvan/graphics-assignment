@@ -17,20 +17,20 @@
 
 void apply_changes_to_wings(struct Bee *bee)
 {
-    set_entity_position(&(bee->left_wing), bee->body.position.x, bee->body.position.y, bee->body.position.z);
-    set_entity_position(&(bee->right_wing), bee->body.position.x, bee->body.position.y, bee->body.position.z);
+    move_entity(&(bee->left_wing), bee->body.position.x, bee->body.position.y, bee->body.position.z);
+    move_entity(&(bee->right_wing), bee->body.position.x, bee->body.position.y, bee->body.position.z);
     bee->left_wing.rotation.y = bee->body.rotation.y;
     bee->right_wing.rotation.y = bee->body.rotation.y;
 }
 
-void flap_wings(struct Bee *bee, double delta, double speed)
+void flap_wings(struct Bee *bee, const double delta, const double speed)
 {
     bee->wing_progression += delta * speed;
     bee->left_wing.rotation.z = 45.0 + cos(degree_to_radian(bee->wing_progression)) * 22.5;
     bee->right_wing.rotation.z = -bee->left_wing.rotation.z;
 }
 
-int fly_to_target_position(struct Bee *bee, struct HeightMap *terrain, double delta)
+int fly_to_target_position(struct Bee *bee, const struct HeightMap *terrain, const double delta)
 {
     struct Vector3d *bee_position = &(bee->body.position);
     struct Vector3d *bee_rotation = &(bee->body.rotation);
@@ -62,7 +62,7 @@ int fly_to_target_position(struct Bee *bee, struct HeightMap *terrain, double de
     }
 }
 
-struct Entity *get_flower_in_range(struct Bee *bee, struct Entity flowers[], int flower_count)
+struct Entity *get_flower_in_range(struct Bee *bee, struct Entity flowers[], const int flower_count)
 {
     int i;
 
@@ -82,11 +82,11 @@ struct Entity *get_flower_in_range(struct Bee *bee, struct Entity flowers[], int
 
 // PUBLIC
 
-void create_bees(struct Bee bees[], int count)
+void create_bees(struct Bee bees[], const int count)
 {
     struct Entity bee_body, bee_wing;
-    set_entity(&bee_body, "res/bee_body.obj", "res/bee.png", &DEFAULT);
-    set_entity(&bee_wing, "res/bee_wing.obj", "res/bee.png", &DEFAULT);
+    set_entity(&bee_body, "resources/models/bee_body.obj", "resources/textures/bee.png", &DEFAULT);
+    set_entity(&bee_wing, "resources/models/bee_wing.obj", "resources/textures/bee.png", &DEFAULT);
 
     int i;
 
@@ -103,25 +103,25 @@ void create_bees(struct Bee bees[], int count)
         // body
         bees[i].body.model = bee_body.model;
         bees[i].body.texture = bee_body.texture;
-        set_entity_position(&(bees[i].body), x, 5, z);
-        set_entity_rotation(&(bees[i].body), 0.0, 0.0, 0.0);
-        set_entity_scale(&(bees[i].body), scale, scale, scale);
+        move_entity(&(bees[i].body), x, 5, z);
+        rotate_entity(&(bees[i].body), 0.0, 0.0, 0.0);
+        scale_entity(&(bees[i].body), scale, scale, scale);
         bees[i].body.material = GOLD;
 
         // left wing
         bees[i].left_wing.model = bee_wing.model;
         bees[i].left_wing.texture = bee_wing.texture;
-        set_entity_position(&(bees[i].left_wing), x, 5, z);
-        set_entity_rotation(&(bees[i].left_wing), 0.0, 0.0, 0.0);
-        set_entity_scale(&(bees[i].left_wing), scale, scale, scale);
+        move_entity(&(bees[i].left_wing), x, 5, z);
+        rotate_entity(&(bees[i].left_wing), 0.0, 0.0, 0.0);
+        scale_entity(&(bees[i].left_wing), scale, scale, scale);
         bees[i].left_wing.material = SILVER;
 
         // right wing
         bees[i].right_wing.model = bee_wing.model;
         bees[i].right_wing.texture = bee_wing.texture;
-        set_entity_position(&(bees[i].right_wing), x, 5, z);
-        set_entity_rotation(&(bees[i].right_wing), 0.0, 0.0, 0.0);
-        set_entity_scale(&(bees[i].right_wing), scale, scale, scale);
+        move_entity(&(bees[i].right_wing), x, 5, z);
+        rotate_entity(&(bees[i].right_wing), 0.0, 0.0, 0.0);
+        scale_entity(&(bees[i].right_wing), scale, scale, scale);
         bees[i].right_wing.material = SILVER;
 
         // target
@@ -131,7 +131,7 @@ void create_bees(struct Bee bees[], int count)
     }
 }
 
-void update_bees(struct Bee bees[], int bee_count, struct Entity flowers[], int flower_count, struct HeightMap *terrain, double delta)
+void update_bees(struct Bee bees[], const int bee_count, struct Entity flowers[], const int flower_count, const struct HeightMap *terrain, const double delta)
 {
     int i;
 
@@ -203,7 +203,7 @@ void update_bees(struct Bee bees[], int bee_count, struct Entity flowers[], int 
     }
 }
 
-void draw_bees(struct Bee bees[], int count)
+void draw_bees(const struct Bee bees[], const int count)
 {
     int i;
 
